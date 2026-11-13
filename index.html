@@ -19,7 +19,6 @@
       align-items: center;
     }
 
-    /* PAPER / FORM CONTAINER */
     .report-sheet {
       width: 100%;
       max-width: 880px;
@@ -44,11 +43,11 @@
       padding-bottom: 6px;
     }
 
-    /* HEADER & STAMP */
+    /* HEADER & STAMP SECTION */
     .doc-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       border-bottom: 3px solid #0b2239;
       padding-bottom: 16px;
       margin-bottom: 20px;
@@ -60,10 +59,7 @@
       align-items: center;
       gap: 15px;
     }
-    .agency-brand img {
-      width: 65px;
-      height: auto;
-    }
+    .agency-brand img { width: 65px; height: auto; }
     .agency-titles h1 {
       font-family: 'Oswald', sans-serif;
       font-size: 24px;
@@ -91,7 +87,13 @@
       letter-spacing: 1px;
     }
 
-    /* CASE STATUS STAMP */
+    /* STAMP CONTROL CONTAINER */
+    .stamp-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
     .stamp-box {
       border: 3px solid #dc2626;
       color: #dc2626;
@@ -116,7 +118,7 @@
       letter-spacing: 1px;
     }
 
-    /* SECTION STYLING */
+    /* SECTIONS */
     .sec-box {
       border: 1.5px solid #1e293b;
       margin-bottom: 16px;
@@ -129,13 +131,8 @@
       font-weight: 700;
       padding: 6px 12px;
       letter-spacing: 1px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
-    .sec-body {
-      padding: 14px;
-    }
+    .sec-body { padding: 14px; }
 
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -160,34 +157,15 @@
       color: #0f172a;
       outline: none;
     }
-    .field input:focus, .field select:focus, .field textarea:focus {
-      background: #eff6ff;
-      border-color: #2563eb;
-    }
-    .field textarea {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.5;
-    }
+    .field textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
 
-    /* RADIO CHECKBOX GROUP */
     .check-group {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      padding: 6px 0;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
+      display: flex; gap: 14px; flex-wrap: wrap; padding: 6px 0;
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
     }
-    .check-group label {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+    .check-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; }
 
-    /* SUSPECT PHOTO + DETAILS */
+    /* STABLE PHOTO BOX STYLING (ANTI-BUG) */
     .suspect-wrap {
       display: grid;
       grid-template-columns: 145px 1fr;
@@ -201,25 +179,31 @@
       height: 165px;
       background: #f1f5f9;
       border: 1.5px dashed #64748b;
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
     .photo-box img {
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
-      display: none;
+      z-index: 2;
+    }
+    .p-txt {
+      position: absolute;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: #64748b;
+      text-align: center;
+      z-index: 1;
+      padding: 5px;
     }
 
-    /* DYNAMIC ROWS (CRIME, EVIDENCE, WITNESS) */
-    .dyn-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-      align-items: center;
-    }
+    .dyn-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+    
     .ev-item-card {
       border: 1px solid #cbd5e1;
       background: #f8fafc;
@@ -237,68 +221,42 @@
       height: 85px;
       background: #e2e8f0;
       border: 1px dashed #64748b;
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
     .ev-thumb img {
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
-      display: none;
+      z-index: 2;
     }
 
     .btn-mini {
-      background: #ffffff;
-      color: #0b2239;
-      border: none;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      cursor: pointer;
+      background: #ffffff; color: #0b2239; border: none;
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 8px; cursor: pointer;
     }
     .btn-del {
-      background: #dc2626;
-      color: #fff;
-      border: none;
-      height: 32px;
-      width: 32px;
-      font-weight: bold;
-      cursor: pointer;
+      background: #dc2626; color: #fff; border: none; height: 32px; width: 32px; font-weight: bold; cursor: pointer;
     }
 
     .doc-footer {
       border-top: 2px solid #0b2239;
-      padding-top: 10px;
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: #475569;
+      padding-top: 10px; margin-top: 10px;
+      display: flex; justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #475569;
     }
 
-    /* BOTTOM BUTTONS */
     .action-bar {
-      width: 100%;
-      max-width: 880px;
-      margin-top: 16px;
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
+      width: 100%; max-width: 880px; margin-top: 16px;
+      display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;
     }
     .btn-act {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 11px 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 700;
+      padding: 11px 18px; border: none; border-radius: 5px; cursor: pointer; color: #fff;
     }
     .btn-discord { background: #4f46e5; }
     .btn-png { background: #0284c7; }
@@ -330,21 +288,25 @@
       </div>
     </div>
 
-    <div class="stamp-box" id="status-stamp">
-      CASE STATUS: <span id="stamp-label">OPEN</span>
-      <span class="stamp-sub">OFFICIAL DEPARTMENT RECORD</span>
+    <!-- STAMP & STATUS SELECTOR -->
+    <div class="stamp-container">
+      <div class="stamp-box" id="status-stamp">
+        CASE STATUS: <span id="stamp-label">OPEN</span>
+        <span class="stamp-sub">OFFICIAL DEPARTMENT RECORD</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <label style="font-family:'IBM Plex Mono'; font-size:9px; font-weight:700; color:#334155;">UBAH STATUS:</label>
+        <select id="case_status" onchange="updateStamp(this.value)" style="font-family:'IBM Plex Mono'; font-size:10px; padding:3px 6px; font-weight:700; background:#f8fafc; border:1px solid #cbd5e1; cursor:pointer;">
+          <option value="OPEN">STATUS: OPEN</option>
+          <option value="CLOSED">STATUS: CLOSED</option>
+        </select>
+      </div>
     </div>
   </div>
 
   <!-- I. INCIDENT INFORMATION -->
   <div class="sec-box">
-    <div class="sec-title">
-      <span>I. INCIDENT INFORMATION</span>
-      <select id="case_status" onchange="updateStamp(this.value)" style="font-family:'IBM Plex Mono'; font-size:10px; padding:2px 6px; font-weight:700;">
-        <option value="OPEN">STATUS: OPEN</option>
-        <option value="CLOSED">STATUS: CLOSED</option>
-      </select>
-    </div>
+    <div class="sec-title"><span>I. INCIDENT INFORMATION</span></div>
     <div class="sec-body">
       <div class="grid-2" style="margin-bottom: 10px;">
         <div class="field"><label>DR Number</label><input type="text" id="dr_no" placeholder="26-05-00"></div>
@@ -399,7 +361,7 @@
       <div class="suspect-wrap">
         <div>
           <div class="photo-box">
-            <span class="p-txt" style="font-family:'IBM Plex Mono'; font-size:9px; color:#64748b; text-align:center;">NO SUSPECT PHOTO</span>
+            <span class="p-txt">NO PHOTO</span>
             <img id="suspect-img" src="" alt="Suspect">
           </div>
           <input type="file" accept="image/*" onchange="previewImg(event, 'suspect-img')" style="width:145px; font-size:9px; margin-top:6px; cursor:pointer;">
@@ -444,14 +406,14 @@
     <div class="sec-body">
       <div class="field">
         <label>Source of Activity, Investigation (TKP), & Action Taken</label>
-        <textarea id="narrative" placeholder="Jelaskan kronologi kejadian dengan detail 5W+1H. Mulai dari: Source of Activity (Bagaimana Anda tahu kejadian ini), Investigation (Apa yang Anda lihat di TKP), dan Action Taken (Apa yang Anda lakukan)..."></textarea>
+        <textarea id="narrative" placeholder="Jelaskan kronologi kejadian dengan detail 5W+1H..."></textarea>
       </div>
     </div>
   </div>
 
   <!-- VI. EVIDENCE & WITNESSES -->
   <div class="sec-box">
-    <div class="sec-title">
+    <div class="sec-title" style="display:flex; justify-content:space-between; align-items:center;">
       <span>VI. EVIDENCE & WITNESSES</span>
       <button type="button" class="btn-mini" onclick="addEvidenceItem()">+ TAMBAH BUKTI</button>
     </div>
@@ -460,7 +422,7 @@
       <div id="evidence-container">
         <div class="ev-item-card">
           <div class="ev-thumb">
-            <span class="p-txt" style="font-family:'IBM Plex Mono'; font-size:8px; color:#64748b;">NO PHOTO</span>
+            <span class="p-txt">NO PHOTO</span>
             <img class="ev-photo" src="" alt="Evidence">
           </div>
           <div style="display:flex; flex-direction:column; gap:6px;">
@@ -532,12 +494,11 @@
   function previewImg(event, imgId) {
     const file = event.target.files[0];
     const img = document.getElementById(imgId);
-    const txt = img.previousElementSibling;
+    const txt = img.parentElement.querySelector(".p-txt");
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
         img.src = e.target.result;
-        img.style.display = "block";
         if (txt) txt.style.display = "none";
       };
       reader.readAsDataURL(file);
@@ -553,7 +514,6 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         img.src = e.target.result;
-        img.style.display = "block";
         if (txt) txt.style.display = "none";
       };
       reader.readAsDataURL(file);
@@ -574,7 +534,8 @@
     card.className = "ev-item-card";
     card.innerHTML = `
       <div class="ev-thumb">
-        <span class="p-txt" style="font-family:'IBM Plex Mono'; font-size:8px; color:#64748b;">NO PHOTO</span>
+        <span class="p-txt">NO PHOTO</span>
         <img class="ev-photo" src="" alt="Evidence">
       </div>
-      <div styl
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <input type="text" class="ev-desc" placeholder="Deskripsi Barang Bukti" style="background:#fff; border:1px solid #cbd5e1; padding:6
