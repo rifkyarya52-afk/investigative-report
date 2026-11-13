@@ -38,7 +38,6 @@
     .doc-header {
       text-align: center;
       margin-bottom: 18px;
-      position: relative;
     }
     .doc-header img {
       width: 52px;
@@ -129,9 +128,6 @@
       color: #0f172a;
       outline: none;
     }
-    .cell input::placeholder, .cell textarea::placeholder {
-      color: #94a3b8;
-    }
 
     /* SECTION HEADINGS */
     .sec-heading {
@@ -155,20 +151,23 @@
       cursor: pointer;
     }
 
-    /* EXHIBIT SPOILER CARD */
+    /* EXHIBIT CARD */
     .exhibit-card {
       background: #ffffff;
       border: 1px solid #cbd5e1;
       margin-bottom: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    .exhibit-header {
+    .exhibit-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 7px 10px;
       gap: 8px;
     }
-    .exhibit-header input[type="text"] {
+    .exhibit-top input[type="text"] {
       flex: 1;
       border: none;
       font-size: 12px;
@@ -176,18 +175,8 @@
       color: #1e293b;
       outline: none;
     }
-    .btn-spoiler {
-      background: #dc2626;
-      color: #ffffff;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 3px;
-      font-size: 10px;
-      font-weight: bold;
-      cursor: pointer;
-    }
     .btn-del-small {
-      background: #64748b;
+      background: #dc2626;
       color: #fff;
       border: none;
       padding: 4px 7px;
@@ -195,17 +184,9 @@
       font-size: 10px;
       cursor: pointer;
     }
-    .exhibit-body {
-      padding: 10px;
-      border-top: 1px dashed #cbd5e1;
-      background: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
     .exhibit-preview {
       max-width: 100%;
-      max-height: 260px;
+      max-height: 220px;
       object-fit: contain;
       border: 1px solid #cbd5e1;
       display: none;
@@ -238,7 +219,7 @@
       outline: none;
     }
 
-    /* BOTTOM ACTION BUTTONS */
+    /* CONTROLS */
     .controls {
       width: 100%;
       max-width: 820px;
@@ -286,7 +267,7 @@
     </div>
     <div style="display:flex; align-items:center; gap:6px;">
       <label style="font-size:10px; font-weight:700; color:#475569;">UBAH:</label>
-      <select id="case_status" onchange="changeStatus(this.value)" style="font-size:11px; padding:2px 6px; border:1px solid #94a3b8; border-radius:3px;">
+      <select id="case_status_select" onchange="changeStatus(this.value)" style="font-size:11px; padding:2px 6px; border:1px solid #94a3b8; border-radius:3px; cursor:pointer;">
         <option value="OPEN">OPEN</option>
         <option value="CLOSED">CLOSED</option>
       </select>
@@ -330,7 +311,7 @@
       </div>
       <div class="cell">
         <label>DESC</label>
-        <input type="text" id="vic_desc" placeholder="BLACK / WHITE / HISPANIC">
+        <input type="text" id="vic_desc" placeholder="BLACK / WHITE">
       </div>
       <div class="cell">
         <label>DOB</label>
@@ -364,7 +345,7 @@
       <div class="cell no-bottom"><label>SEX</label><input type="text" class="s-sex" placeholder="M"></div>
       <div class="cell no-bottom"><label>DESC</label><input type="text" class="s-desc" placeholder="BLACK"></div>
       <div class="cell no-bottom"><label>DOB</label><input type="text" class="s-dob" placeholder="01/01/1999"></div>
-      <div class="cell no-bottom"><label>NAME & ADDRESS (OR NAME & CHARGE, IF ARRESTED)</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka & Pasal"></div>
+      <div class="cell no-bottom"><label>NAME & ADDRESS (OR NAME & CHARGE, IF ARRESTED)</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka"></div>
       <div class="cell no-bottom" style="display:flex; align-items:center; justify-content:center;">
         <button type="button" class="btn-del-small" onclick="this.closest('.suspect-row').remove()">✕</button>
       </div>
@@ -378,22 +359,19 @@
   </div>
   <div id="exhibit-list" style="margin-bottom: 14px;">
     <div class="exhibit-card">
-      <div class="exhibit-header">
+      <div class="exhibit-top">
         <input type="text" class="ex-title" value="Exhibit 1 — Deskripsi Barang Bukti">
-        <button type="button" class="btn-spoiler" onclick="toggleExhibit(this)">👁️ Foto</button>
         <button type="button" class="btn-del-small" onclick="this.closest('.exhibit-card').remove()">✕</button>
       </div>
-      <div class="exhibit-body">
-        <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px;">
-        <img class="exhibit-preview" src="" alt="Exhibit Preview">
-      </div>
+      <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px; cursor:pointer;">
+      <img class="exhibit-preview" src="" alt="Exhibit Preview">
     </div>
   </div>
 
   <!-- NARRATIVE -->
   <div class="narrative-box">
     <label>NARRATIVE</label>
-    <textarea id="narrative" placeholder="On Sunday, October 11, 2026, at approximately 13:40 HRS, Harbor Patrol Division Unit..."></textarea>
+    <textarea id="narrative" placeholder="On Sunday, October 11, 2026, at approximately 13:40 HRS..."></textarea>
   </div>
 
   <!-- REPORTING & APPROVING PERSONNEL -->
@@ -472,7 +450,7 @@
       <div class="cell no-bottom"><label>SEX</label><input type="text" class="s-sex" placeholder="M"></div>
       <div class="cell no-bottom"><label>DESC</label><input type="text" class="s-desc" placeholder="BLACK"></div>
       <div class="cell no-bottom"><label>DOB</label><input type="text" class="s-dob" placeholder="01/01/1999"></div>
-      <div class="cell no-bottom"><label>NAME & ADDRESS (OR NAME & CHARGE, IF ARRESTED)</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka"></div>
+      <div class="cell no-bottom"><label>NAME & ADDRESS</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka"></div>
       <div class="cell no-bottom" style="display:flex; align-items:center; justify-content:center;">
         <button type="button" class="btn-del-small" onclick="this.closest('.suspect-row').remove()">✕</button>
       </div>
@@ -486,22 +464,14 @@
     const card = document.createElement("div");
     card.className = "exhibit-card";
     card.innerHTML = `
-      <div class="exhibit-header">
+      <div class="exhibit-top">
         <input type="text" class="ex-title" value="Exhibit ${count} — Deskripsi Barang Bukti">
-        <button type="button" class="btn-spoiler" onclick="toggleExhibit(this)">👁️ Foto</button>
         <button type="button" class="btn-del-small" onclick="this.closest('.exhibit-card').remove()">✕</button>
       </div>
-      <div class="exhibit-body">
-        <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px;">
-        <img class="exhibit-preview" src="" alt="Exhibit Preview">
-      </div>
+      <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px; cursor:pointer;">
+      <img class="exhibit-preview" src="" alt="Exhibit Preview">
     `;
     list.appendChild(card);
-  }
-
-  function toggleExhibit(btn) {
-    const body = btn.closest(".exhibit-card").querySelector(".exhibit-body");
-    body.style.display = body.style.display === "none" ? "flex" : "none";
   }
 
   function loadExhibitImg(event, input) {
@@ -509,7 +479,8 @@
     if (!file) return;
     const reader = new FileReader();
     reader.onload = function(e) {
-      const img = input.parentElement.querySelector(".exhibit-preview");
+      const card = input.closest(".exhibit-card");
+      const img = card.querySelector(".exhibit-preview");
       img.src = e.target.result;
       img.style.display = "block";
     };
@@ -517,7 +488,7 @@
   }
 
   function copyDiscord() {
-    const status = document.getElementById("case_status").value;
+    const status = document.getElementById("case_status_select").value;
     let suspects = "";
     document.querySelectorAll(".suspect-row").forEach(r => {
       const id = r.querySelector(".s-id").value || "-";
@@ -560,7 +531,7 @@ ${document.getElementById("narrative").value || "-"}
   }
 
   function copyBBCode() {
-    const status = document.getElementById("case_status").value;
+    const status = document.getElementById("case_status_select").value;
     let suspects = "";
     document.querySelectorAll(".suspect-row").forEach(r => {
       suspects += `[tr][td]${r.querySelector(".s-id").value}[/td][td]${r.querySelector(".s-sex").value}[/td][td]${r.querySelector(".s-desc").value}[/td][td]${r.querySelector(".s-dob").value}[/td][td]${r.querySelector(".s-info").value}[/td][/tr]\n`;
@@ -568,7 +539,7 @@ ${document.getElementById("narrative").value || "-"}
 
     let exhibits = "";
     document.querySelectorAll(".ex-title").forEach(el => {
-      exhibits += `[spoiler=${el.value}]Lampirkan Link Foto Disini[/spoiler]\n`;
+      exhibits += `[spoiler=${el.value}]Link Foto Bukti[/spoiler]\n`;
     });
 
     const bb = `[divbox=white][center][img]https://i.imgur.com/3fSSqST.png[/img]
@@ -584,4 +555,21 @@ ${document.getElementById("narrative").value || "-"}
 [b]ADDRESS:[/b] ${document.getElementById("vic_address").value || "-"} | [b]PHONE:[/b] ${document.getElementById("vic_phone").value || "-"} | [b]OCCUPATION:[/b] ${document.getElementById("vic_occ").value || "-"}
 
 [b]SUSPECT(S)[/b]
-[table]${suspects}[/tabl
+[table]${suspects}[/table]
+
+[b]EVIDENCE(S)[/b]
+${exhibits}
+
+[b]NARRATIVE[/b]
+${document.getElementById("narrative").value || "-"}
+
+[b]REPORTING EMPLOYEE(S):[/b] ${document.getElementById("rep_emp").value || "-"} (${document.getElementById("rep_serial").value || "-"}) — ${document.getElementById("rep_div").value || "-"}
+[b]SUPERVISOR APPROVING:[/b] ${document.getElementById("sup_emp").value || "-"} (${document.getElementById("sup_serial").value || "-"}) — ${document.getElementById("sup_div").value || "-"}
+[b]DETECTIVE SUPERVISOR APPROVING:[/b] ${document.getElementById("det_emp").value || "-"} (${document.getElementById("det_serial").value || "-"}) — ${document.getElementById("det_div").value || "-"}[/divbox]`;
+
+    navigator.clipboard.writeText(bb).then(() => alert("Format BBCode Forum berhasil disalin!"));
+  }
+
+  function downloadPNG() {
+    const area = document.getElementById("capture-area");
+    html2canvas(area, { scale: 2, useCORS: true, allowTaint: tru
