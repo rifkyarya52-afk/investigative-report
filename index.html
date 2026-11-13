@@ -3,358 +3,578 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LSPD Detective Bureau — Investigative Case File</title>
+  <title>LSPD Form 03.01.00 — Investigative Report</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Oswald:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: #1c1917;
-      color: #1c1917;
+      background-color: #18181b;
+      color: #0f172a;
       font-family: 'Plus Jakarta Sans', sans-serif;
       padding: 25px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    .dossier-wrapper {
+
+    /* PAPER / FORM CONTAINER */
+    .report-sheet {
       width: 100%;
       max-width: 880px;
-      background: #f5f2eb;
-      border: 2px solid #292524;
-      border-top: 12px solid #1e293b;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
-      position: relative;
+      background: #ffffff;
+      border: 2px solid #0f172a;
+      border-top: 10px solid #0b2239;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
       padding: 35px 40px;
-      background-image: radial-gradient(#d6d3cb 0.75px, transparent 0.75px);
-      background-size: 16px 16px;
+      position: relative;
     }
-    @media (max-width: 650px) { .dossier-wrapper { padding: 20px 16px; } }
+    @media (max-width: 650px) { .report-sheet { padding: 20px 16px; } }
 
-    .top-banner {
-      background: #991b1b; color: #ffffff;
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
-      letter-spacing: 3px; text-align: center; padding: 5px; margin-bottom: 22px; text-transform: uppercase;
-    }
-    .dossier-header {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      border-bottom: 3px double #292524; padding-bottom: 18px; margin-bottom: 22px; gap: 15px; flex-wrap: wrap;
-    }
-    .agency-info { display: flex; align-items: center; gap: 15px; }
-    .agency-info img { width: 65px; height: auto; }
-    .agency-titles h1 { font-family: 'Oswald', sans-serif; font-size: 24px; color: #0f172a; line-height: 1.1; }
-    .agency-titles h2 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700; color: #475569; margin-top: 3px; }
-    .agency-titles .doc-type {
-      display: inline-block; background: #0f172a; color: #f8fafc;
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; padding: 3px 8px; margin-top: 6px;
+    .top-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 6px;
     }
 
+    /* HEADER & STAMP */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #0b2239;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .agency-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .agency-brand img {
+      width: 65px;
+      height: auto;
+    }
+    .agency-titles h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+      color: #0b2239;
+      line-height: 1.1;
+    }
+    .agency-titles h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 3px;
+      letter-spacing: 1px;
+    }
+    .form-tag {
+      display: inline-block;
+      background: #0b2239;
+      color: #ffffff;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      margin-top: 5px;
+      letter-spacing: 1px;
+    }
+
+    /* CASE STATUS STAMP */
     .stamp-box {
-      border: 3px solid #b91c1c; color: #b91c1c; padding: 8px 16px;
-      font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase; transform: rotate(-3deg);
-      background: rgba(255, 255, 255, 0.7); box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center;
+      border: 3px solid #dc2626;
+      color: #dc2626;
+      padding: 7px 14px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transform: rotate(-2.5deg);
+      background: #fff;
+      text-align: center;
     }
-    .stamp-box.closed { border-color: #15803d; color: #15803d; }
-    .stamp-sub { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; margin-top: 2px; }
+    .stamp-box.closed {
+      border-color: #16a34a;
+      color: #16a34a;
+    }
+    .stamp-sub {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
 
-    .section-block {
-      background: #ffffff; border: 1.5px solid #292524; margin-bottom: 18px; box-shadow: 3px 3px 0px #292524;
+    /* SECTION STYLING */
+    .sec-box {
+      border: 1.5px solid #1e293b;
+      margin-bottom: 16px;
     }
-    .section-bar {
-      background: #292524; color: #f5f2eb; font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px; font-weight: 700; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center;
+    .sec-title {
+      background: #0b2239;
+      color: #ffffff;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .section-content { padding: 15px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .sec-body {
+      padding: 14px;
+    }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     @media (max-width: 650px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
 
     .field { display: flex; flex-direction: column; gap: 4px; }
-    .field label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; color: #57534e; text-transform: uppercase; }
+    .field label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+    }
     .field input, .field select, .field textarea {
-      width: 100%; background: #fafaf9; border: 1px solid #a8a29e; border-bottom: 2px solid #292524;
-      padding: 8px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #0f172a; outline: none;
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-bottom: 1.5px solid #0f172a;
+      padding: 7px 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: #0f172a;
+      outline: none;
     }
-    .field textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
-
-    .poi-grid { display: grid; grid-template-columns: 165px 1fr; gap: 18px; align-items: start; }
-    @media (max-width: 650px) { .poi-grid { grid-template-columns: 1fr; } }
-
-    .photo-polaroid {
-      background: #ffffff; border: 1px solid #a8a29e; padding: 8px 8px 22px 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15); text-align: center; transform: rotate(-1.5deg);
+    .field input:focus, .field select:focus, .field textarea:focus {
+      background: #eff6ff;
+      border-color: #2563eb;
     }
-    .photo-frame {
-      width: 100%; height: 165px; background: #e7e5e4; border: 1px solid #d6d3d1;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.5;
     }
-    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: none; }
-    .photo-caption { font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 700; color: #44403c; margin-top: 6px; }
 
-    .evidence-card {
-      border: 1px solid #a8a29e; background: #fafaf9; padding: 10px; margin-bottom: 10px;
-      display: grid; grid-template-columns: 110px 1fr 34px; gap: 12px; align-items: center;
+    /* RADIO CHECKBOX GROUP */
+    .check-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 6px 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
     }
-    @media (max-width: 650px) { .evidence-card { grid-template-columns: 1fr; } }
-
-    .ev-photo-box {
-      width: 110px; height: 95px; background: #e7e5e4; border: 1px dashed #78716c;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    .check-group label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-weight: 600;
     }
-    .ev-photo-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
-    .ev-details { display: flex; flex-direction: column; gap: 8px; }
-    .ev-top-inputs { display: grid; grid-template-columns: 110px 1fr; gap: 8px; }
-    @media (max-width: 650px) { .ev-top-inputs { grid-template-columns: 1fr; } }
 
-    .btn-small { background: #f5f2eb; color: #1c1917; border: none; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 8px; cursor: pointer; }
-    .btn-remove { background: #991b1b; color: #fff; border: none; height: 34px; font-weight: bold; cursor: pointer; }
+    /* SUSPECT PHOTO + DETAILS */
+    .suspect-wrap {
+      display: grid;
+      grid-template-columns: 145px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 650px) { .suspect-wrap { grid-template-columns: 1fr; } }
 
-    .dossier-footer { border-top: 2px solid #292524; padding-top: 12px; margin-top: 10px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #57534e; flex-wrap: wrap; gap: 10px; }
-    .controls-bar { width: 100%; max-width: 880px; margin-top: 18px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-    .ctrl-btn { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 700; padding: 11px 18px; border: none; border-radius: 5px; cursor: pointer; color: #ffffff; }
-    .btn-discord { background: #4338ca; }
-    .btn-png { background: #b45309; }
-    .btn-print { background: #15803d; }
-    @media print { body { background: #fff; padding: 0; } .dossier-wrapper { box-shadow: none; border: 1px solid #000; } .controls-bar { display: none; } }
+    .photo-box {
+      width: 145px;
+      height: 165px;
+      background: #f1f5f9;
+      border: 1.5px dashed #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    /* DYNAMIC ROWS (CRIME, EVIDENCE, WITNESS) */
+    .dyn-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .ev-item-card {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 100px 1fr 32px;
+      gap: 12px;
+      align-items: center;
+    }
+    @media (max-width: 650px) { .ev-item-card { grid-template-columns: 1fr; } }
+
+    .ev-thumb {
+      width: 100px;
+      height: 85px;
+      background: #e2e8f0;
+      border: 1px dashed #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ev-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .btn-mini {
+      background: #ffffff;
+      color: #0b2239;
+      border: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+    .btn-del {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      height: 32px;
+      width: 32px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .doc-footer {
+      border-top: 2px solid #0b2239;
+      padding-top: 10px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: #475569;
+    }
+
+    /* BOTTOM BUTTONS */
+    .action-bar {
+      width: 100%;
+      max-width: 880px;
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .btn-act {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 11px 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+    }
+    .btn-discord { background: #4f46e5; }
+    .btn-png { background: #0284c7; }
+    .btn-print { background: #16a34a; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .report-sheet { box-shadow: none; border: none; padding: 0; }
+      .action-bar { display: none; }
+    }
   </style>
 </head>
 <body>
 
-<div class="dossier-wrapper" id="dossier-capture">
-  <div class="top-banner">CONFIDENTIAL // DETECTIVE BUREAU INTELLIGENCE DOSSIER</div>
+<div class="report-sheet" id="report-capture">
+  <div class="top-meta">
+    <span>LOS SANTOS POLICE DEPARTMENT — OFFICIAL RECORD</span>
+    <span>FORM: LSPD 03.01.00</span>
+  </div>
 
-  <div class="dossier-header">
-    <div class="agency-info">
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="agency-brand">
       <img src="https://i.imgur.com/3fSSqST.png" alt="LSPD Logo">
       <div class="agency-titles">
         <h1>LOS SANTOS POLICE DEPARTMENT</h1>
-        <h2>DETECTIVE BUREAU — SPECIALIZED INVESTIGATIONS</h2>
-        <span class="doc-type">INVESTIGATIVE CASE REPORT</span>
+        <h2>INVESTIGATIVE REPORT</h2>
+        <span class="form-tag">FORM: LSPD 03.01.00 // GENERAL & DETECTIVE USE</span>
       </div>
     </div>
+
     <div class="stamp-box" id="status-stamp">
       CASE STATUS: <span id="stamp-label">OPEN</span>
-      <span class="stamp-sub">LSPD DETECTIVE ARCHIVE</span>
+      <span class="stamp-sub">OFFICIAL DEPARTMENT RECORD</span>
     </div>
   </div>
 
-  <div class="section-block">
-    <div class="section-bar">
-      <span>01. CASE FILE METADATA & STATUS CONTROL</span>
-      <span>FORM INV-88</span>
+  <!-- I. INCIDENT INFORMATION -->
+  <div class="sec-box">
+    <div class="sec-title">
+      <span>I. INCIDENT INFORMATION</span>
+      <select id="case_status" onchange="updateStamp(this.value)" style="font-family:'IBM Plex Mono'; font-size:10px; padding:2px 6px; font-weight:700;">
+        <option value="OPEN">STATUS: OPEN</option>
+        <option value="CLOSED">STATUS: CLOSED</option>
+      </select>
     </div>
-    <div class="section-content">
+    <div class="sec-body">
+      <div class="grid-2" style="margin-bottom: 10px;">
+        <div class="field"><label>DR Number</label><input type="text" id="dr_no" placeholder="26-05-00"></div>
+        <div class="field"><label>Date & Time</label><input type="text" id="date_time" placeholder="18/01/2026 - 23:30"></div>
+      </div>
+      <div class="grid-2" style="margin-bottom: 12px;">
+        <div class="field"><label>Location</label><input type="text" id="location" placeholder="Jefferson Motel"></div>
+        <div class="field"><label>Area / Division Jurisdiction</label><input type="text" id="area" placeholder="05 Harbor"></div>
+      </div>
+      <div class="field">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <label>Crime Code (Penal Code Violations)</label>
+          <button type="button" onclick="addCrime()" style="background:#0b2239; color:#fff; border:none; font-size:10px; padding:2px 8px; cursor:pointer; font-family:'IBM Plex Mono';">+ TAMBAH PASAL</button>
+        </div>
+        <div id="crime-list">
+          <div class="dyn-row">
+            <input type="text" class="crime-input" placeholder="(1)11. First Degree Murder">
+            <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
+          </div>
+          <div class="dyn-row">
+            <input type="text" class="crime-input" placeholder="(6)02. Possession of an Illegal Firearm">
+            <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- II. VICTIM / REPORTING PARTY -->
+  <div class="sec-box">
+    <div class="sec-title"><span>II. VICTIM / REPORTING PARTY</span></div>
+    <div class="sec-body">
+      <div class="grid-2" style="margin-bottom: 10px;">
+        <div class="field"><label>Full Name</label><input type="text" id="victim_name" placeholder="Officer Michael Burk / Nama Pelapor"></div>
+        <div class="field"><label>Contact / Phone #</label><input type="text" id="victim_contact" placeholder="99999"></div>
+      </div>
+      <div class="field">
+        <label>Condition</label>
+        <div class="check-group">
+          <label><input type="radio" name="victim_cond" value="Uninjured" checked> Uninjured</label>
+          <label><input type="radio" name="victim_cond" value="Injured"> Injured</label>
+          <label><input type="radio" name="victim_cond" value="Deceased"> Deceased</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- III. SUSPECT DESCRIPTION -->
+  <div class="sec-box">
+    <div class="sec-title"><span>III. SUSPECT DESCRIPTION</span></div>
+    <div class="sec-body">
+      <div class="suspect-wrap">
+        <div>
+          <div class="photo-box">
+            <span class="p-txt" style="font-family:'IBM Plex Mono'; font-size:9px; color:#64748b; text-align:center;">NO SUSPECT PHOTO</span>
+            <img id="suspect-img" src="" alt="Suspect">
+          </div>
+          <input type="file" accept="image/*" onchange="previewImg(event, 'suspect-img')" style="width:145px; font-size:9px; margin-top:6px; cursor:pointer;">
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="field">
+            <label>Suspect Status</label>
+            <div class="check-group">
+              <label><input type="radio" name="sus_status" value="Outstanding (Kabur)" checked> Outstanding (Kabur)</label>
+              <label><input type="radio" name="sus_status" value="Arrested (Tertangkap)"> Arrested (Tertangkap)</label>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Gender / Race</label><input type="text" id="sus_gender" placeholder="M - Black"></div>
+            <div class="field"><label>Clothing</label><input type="text" id="sus_clothing" placeholder="Black Hoodie, Grey Cargo, Red Shoes"></div>
+          </div>
+          <div class="field">
+            <label>Physical Details (Tinggi, Berat, Ciri Khas, Tato, Luka)</label>
+            <input type="text" id="sus_details" placeholder="185 cm, 59 Kg, Dark Brown, MS-13 on Left Arm, Spider at left neck">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IV. VEHICLE INFORMATION -->
+  <div class="sec-box">
+    <div class="sec-title"><span>IV. VEHICLE INFORMATION</span></div>
+    <div class="sec-body">
       <div class="grid-3">
-        <div class="field"><label>Case File Number</label><input type="text" id="case_no" placeholder="CF-2026-409"></div>
-        <div class="field"><label>Investigating Unit</label>
-          <select id="division">
+        <div class="field"><label>Suspect Vehicle & Plate</label><input type="text" id="veh_model" placeholder="Brown Premier - NONE"></div>
+        <div class="field"><label>Direction of Travel</label><input type="text" id="veh_dir" placeholder="South heading to Market"></div>
+        <div class="field"><label>Vehicle Taken(s)</label><input type="text" id="veh_taken" placeholder="-"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V. NARRATIVE -->
+  <div class="sec-box">
+    <div class="sec-title"><span>V. NARRATIVE (5W + 1H)</span></div>
+    <div class="sec-body">
+      <div class="field">
+        <label>Source of Activity, Investigation (TKP), & Action Taken</label>
+        <textarea id="narrative" placeholder="Jelaskan kronologi kejadian dengan detail 5W+1H. Mulai dari: Source of Activity (Bagaimana Anda tahu kejadian ini), Investigation (Apa yang Anda lihat di TKP), dan Action Taken (Apa yang Anda lakukan)..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- VI. EVIDENCE & WITNESSES -->
+  <div class="sec-box">
+    <div class="sec-title">
+      <span>VI. EVIDENCE & WITNESSES</span>
+      <button type="button" class="btn-mini" onclick="addEvidenceItem()">+ TAMBAH BUKTI</button>
+    </div>
+    <div class="sec-body">
+      <label style="font-family:'IBM Plex Mono'; font-size:10px; font-weight:700; color:#475569; display:block; margin-bottom:6px;">EVIDENCE LOG (ITEM & FOTO):</label>
+      <div id="evidence-container">
+        <div class="ev-item-card">
+          <div class="ev-thumb">
+            <span class="p-txt" style="font-family:'IBM Plex Mono'; font-size:8px; color:#64748b;">NO PHOTO</span>
+            <img class="ev-photo" src="" alt="Evidence">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <input type="text" class="ev-desc" placeholder="1. Selongsong peluru 9mm / Rekaman CCTV" style="background:#fff; border:1px solid #cbd5e1; padding:6px; font-family:'IBM Plex Mono'; font-size:12px;">
+            <input type="file" accept="image/*" onchange="previewEvImg(event, this)" style="font-size:11px; cursor:pointer;">
+          </div>
+          <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <label style="font-family:'IBM Plex Mono'; font-size:10px; font-weight:700; color:#475569;">WITNESS LIST (SAKSI):</label>
+          <button type="button" onclick="addWitness()" style="background:#0b2239; color:#fff; border:none; font-size:10px; padding:2px 8px; cursor:pointer; font-family:'IBM Plex Mono';">+ TAMBAH SAKSI</button>
+        </div>
+        <div id="witness-list">
+          <div class="dyn-row">
+            <input type="text" class="wit-input" placeholder="Hudson Jamilton - 50505" style="width:100%; background:#f8fafc; border:1px solid #cbd5e1; border-bottom:1.5px solid #0f172a; padding:7px 10px; font-family:'IBM Plex Mono'; font-size:12px;">
+            <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTING OFFICER -->
+  <div class="sec-box">
+    <div class="sec-title"><span>REPORTING OFFICER</span></div>
+    <div class="sec-body">
+      <div class="grid-3">
+        <div class="field"><label>Name & Rank</label><input type="text" id="off_name" placeholder="Alexander Miguel, Police Officer II"></div>
+        <div class="field"><label>Badge Number</label><input type="text" id="off_badge" placeholder="76582"></div>
+        <div class="field">
+          <label>Detail / Division</label>
+          <select id="off_detail">
+            <option>Harbor Patrol Division</option>
             <option>Harbor Detective Area</option>
             <option>Harbor Gang Detective</option>
-            <option>Harbor Gang Impact Team</option>
             <option>Metropolitan Division</option>
-            <option>Harbor Patrol Division</option>
-          </select>
-        </div>
-        <div class="field"><label>Ubah Status Kasus</label>
-          <select id="case_status" onchange="updateStatusStamp(this.value)">
-            <option value="OPEN">CASE STATUS: OPEN</option>
-            <option value="CLOSED">CASE STATUS: CLOSED</option>
+            <option>Harbor Gang Impact Team</option>
           </select>
         </div>
       </div>
-      <div class="grid-3" style="margin-top: 12px;">
-        <div class="field"><label>Date Opened</label><input type="text" id="date_opened" placeholder="14/11/2026"></div>
-        <div class="field"><label>Location</label><input type="text" id="location" placeholder="Ocean Docks"></div>
-        <div class="field"><label>Classification</label><input type="text" id="offense_type" placeholder="Organized Crime"></div>
-      </div>
     </div>
   </div>
 
-  <div class="section-block">
-    <div class="section-bar"><span>02. SUBJECT / PERSON OF INTEREST (POI)</span><span>EXHIBIT A</span></div>
-    <div class="section-content">
-      <div class="poi-grid">
-        <div class="photo-polaroid">
-          <div class="photo-frame">
-            <span class="photo-txt" style="font-size: 9px; color: #78716c; font-family: 'IBM Plex Mono';">NO PHOTO</span>
-            <img id="poi-img" src="" alt="Subject">
-          </div>
-          <div class="photo-caption">FIG 1. SUBJECT</div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div class="field"><label>Upload Foto Target (Galeri HP)</label><input type="file" accept="image/*" onchange="loadGaleriPhoto(event)" style="cursor: pointer; padding: 6px;"></div>
-          <div class="grid-2">
-            <div class="field"><label>Subject Full Name</label><input type="text" id="poi_name" placeholder="Nama Target"></div>
-            <div class="field"><label>Alias</label><input type="text" id="poi_alias" placeholder="Alias"></div>
-          </div>
-          <div class="grid-2">
-            <div class="field"><label>ID / SSN / Plate</label><input type="text" id="poi_id" placeholder="ID / No Plat"></div>
-            <div class="field"><label>Affiliation / Gang</label><input type="text" id="poi_gang" placeholder="Afiliasi"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="section-bar"><span>03. INVESTIGATIVE SUMMARY & CHRONOLOGY</span><span>DETECTIVE LOG</span></div>
-    <div class="section-content">
-      <div class="field" style="margin-bottom: 12px;"><label>Background & Intel</label><textarea id="background" style="min-height: 75px;" placeholder="Latar belakang..."></textarea></div>
-      <div class="field"><label>Investigative Findings</label><textarea id="narrative" placeholder="Kronologi penyelidikan..."></textarea></div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="section-bar">
-      <span>04. EVIDENCE & EXHIBITS (DENGAN FOTO)</span>
-      <button type="button" class="btn-small" onclick="addEvidence()">+ TAMBAH BUKTI</button>
-    </div>
-    <div class="section-content" id="evidence-list">
-      <div class="evidence-card">
-        <div class="ev-photo-box">
-          <span class="ev-txt" style="font-size: 8px; color: #78716c; font-family: 'IBM Plex Mono';">NO PHOTO</span>
-          <img class="ev-img" src="" alt="Evidence">
-        </div>
-        <div class="ev-details">
-          <div class="ev-top-inputs">
-            <div class="field"><input type="text" class="ev-id" placeholder="EVD-01"></div>
-            <div class="field"><input type="text" class="ev-desc" placeholder="Deskripsi Bukti"></div>
-          </div>
-          <div class="field"><input type="file" accept="image/*" onchange="previewEvidencePhoto(event, this)" style="padding: 4px; font-size: 11px; cursor: pointer;"></div>
-        </div>
-        <button type="button" class="btn-remove" onclick="this.parentElement.remove()">✕</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-block">
-    <div class="section-bar"><span>05. ASSIGNED DETECTIVES</span><span>AUTHORIZATION</span></div>
-    <div class="section-content">
-      <div class="grid-3">
-        <div class="field"><label>Lead Detective</label><input type="text" id="lead_det" placeholder="Det. Dwayne Tyler"></div>
-        <div class="field"><label>Co-Investigator</label><input type="text" id="co_det" placeholder="Det. Sergio Torres"></div>
-        <div class="field"><label>Supervisor</label><input type="text" id="supervisor" placeholder="Sgt. Theodore"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="dossier-footer">
-    <span>LOS SANTOS POLICE DEPARTMENT — DETECTIVE BUREAU</span>
-    <span>CONFIDENTIAL</span>
+  <div class="doc-footer">
+    <span>FORM: LSPD 03.01.00 — LOS SANTOS POLICE DEPARTMENT</span>
+    <span>OFFICIAL INVESTIGATIVE RECORD</span>
   </div>
 </div>
 
-<div class="controls-bar">
-  <button class="ctrl-btn btn-discord" onclick="copyToDiscord()">📋 Copy Format Discord</button>
-  <button class="ctrl-btn btn-png" onclick="saveDossierImage()">📷 Simpan Berkas (PNG)</button>
-  <button class="ctrl-btn btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
+<!-- ACTION BUTTONS -->
+<div class="action-bar">
+  <button class="btn-act btn-discord" onclick="copyToDiscord()">📋 Copy Teks (Format Discord)</button>
+  <button class="btn-act btn-png" onclick="downloadImage()">📷 Simpan Gambar (PNG)</button>
+  <button class="btn-act btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
 </div>
 
 <script>
-  function updateStatusStamp(status) {
-    const stampBox = document.getElementById("status-stamp");
-    const stampLabel = document.getElementById("stamp-label");
-    stampLabel.innerText = status;
-    if (status === "CLOSED") { stampBox.classList.add("closed"); }
-    else { stampBox.classList.remove("closed"); }
+  function updateStamp(val) {
+    const box = document.getElementById("status-stamp");
+    const lbl = document.getElementById("stamp-label");
+    lbl.innerText = val;
+    if (val === "CLOSED") box.classList.add("closed");
+    else box.classList.remove("closed");
   }
 
-  function loadGaleriPhoto(event) {
+  function previewImg(event, imgId) {
     const file = event.target.files[0];
-    const img = document.getElementById("poi-img");
+    const img = document.getElementById(imgId);
     const txt = img.previousElementSibling;
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
         img.src = e.target.result;
         img.style.display = "block";
-        txt.style.display = "none";
+        if (txt) txt.style.display = "none";
       };
       reader.readAsDataURL(file);
     }
   }
 
-  function previewEvidencePhoto(event, inputEl) {
+  function previewEvImg(event, inputEl) {
     const file = event.target.files[0];
-    const card = inputEl.closest(".evidence-card");
-    const img = card.querySelector(".ev-img");
-    const txt = card.querySelector(".ev-txt");
+    const card = inputEl.closest(".ev-item-card");
+    const img = card.querySelector(".ev-photo");
+    const txt = card.querySelector(".p-txt");
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
         img.src = e.target.result;
         img.style.display = "block";
-        txt.style.display = "none";
+        if (txt) txt.style.display = "none";
       };
       reader.readAsDataURL(file);
     }
   }
 
-  function addEvidence() {
-    const list = document.getElementById("evidence-list");
+  function addCrime() {
+    const list = document.getElementById("crime-list");
+    const row = document.createElement("div");
+    row.className = "dyn-row";
+    row.innerHTML = `<input type="text" class="crime-input" placeholder="(X)XX. Nama Pasal"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>`;
+    list.appendChild(row);
+  }
+
+  function addEvidenceItem() {
+    const container = document.getElementById("evidence-container");
     const card = document.createElement("div");
-    card.className = "evidence-card";
+    card.className = "ev-item-card";
     card.innerHTML = `
-      <div class="ev-photo-box">
-        <span class="ev-txt" style="font-size: 8px; color: #78716c; font-family: 'IBM Plex Mono';">NO PHOTO</span>
-        <img class="ev-img" src="" alt="Evidence">
+      <div class="ev-thumb">
+        <span class="p-txt" style="font-family:'IBM Plex Mono'; font-size:8px; color:#64748b;">NO PHOTO</span>
+        <img class="ev-photo" src="" alt="Evidence">
       </div>
-      <div class="ev-details">
-        <div class="ev-top-inputs">
-          <div class="field"><input type="text" class="ev-id" placeholder="EVD-0X"></div>
-          <div class="field"><input type="text" class="ev-desc" placeholder="Deskripsi Bukti"></div>
-        </div>
-        <div class="field"><input type="file" accept="image/*" onchange="previewEvidencePhoto(event, this)" style="padding: 4px; font-size: 11px; cursor: pointer;"></div>
-      </div>
-      <button type="button" class="btn-remove" onclick="this.parentElement.remove()">✕</button>
-    `;
-    list.appendChild(card);
-  }
-
-  function copyToDiscord() {
-    let evText = "";
-    document.querySelectorAll(".evidence-card").forEach(card => {
-      const id = card.querySelector(".ev-id").value || "-";
-      const desc = card.querySelector(".ev-desc").value || "-";
-      evText += `  * **[${id}]** ${desc}\n`;
-    });
-
-    const status = document.getElementById("case_status").value;
-    const text = `**LOS SANTOS POLICE DEPARTMENT — INVESTIGATIVE CASE FILE**
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-* **Case File #:** ${document.getElementById("case_no").value || "-"}
-* **Case Status:** **[CASE STATUS: ${status}]**
-* **Division:** ${document.getElementById("division").value}
-* **Date Opened:** ${document.getElementById("date_opened").value || "-"} | **Location:** ${document.getElementById("location").value || "-"}
-
-**[SUBJECT / PERSON OF INTEREST]**
-* **Name:** ${document.getElementById("poi_name").value || "-"} (Alias: ${document.getElementById("poi_alias").value || "None"})
-
-**[INVESTIGATIVE FINDINGS]**
-${document.getElementById("narrative").value || "-"}
-
-**[EVIDENCE LOG]**
-${evText || "  * None\n"}
-**[PERSONNEL]**
-* **Lead Detective:** ${document.getElementById("lead_det").value || "-"}`;
-
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Berhasil disalin ke Clipboard untuk Discord!");
-    });
-  }
-
-  function saveDossierImage() {
-    const el = document.getElementById("dossier-capture");
-    html2canvas(el, { scale: 2, useCORS: true }).then(canvas => {
-      const link = document.createElement("a");
-      link.download = "LSPD-Investigative-Case-File.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
-  }
-</script>
-
-</body>
-</html>
+      <div styl
