@@ -219,17 +219,30 @@
       width: 100%;
       height: 165px;
       background: #e7e5e4;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #d6d3d1;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      border: 1px solid #d6d3d1;
     }
     .photo-frame img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: none;
+      z-index: 2;
+    }
+    .photo-placeholder {
+      position: absolute;
+      font-size: 9px;
+      color: #78716c;
+      font-family: 'IBM Plex Mono', monospace;
+      text-align: center;
+      padding: 5px;
+      z-index: 1;
     }
     .photo-caption {
       font-family: 'IBM Plex Mono', monospace;
@@ -259,24 +272,28 @@
       height: 95px;
       background: #e7e5e4;
       border: 1px dashed #78716c;
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      position: relative;
     }
     .ev-photo-box img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: none;
+      z-index: 2;
     }
     .ev-photo-placeholder {
+      position: absolute;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
+      font-size: 8px;
       color: #78716c;
       text-align: center;
-      padding: 4px;
+      z-index: 1;
     }
     .ev-details {
       display: flex;
@@ -435,7 +452,7 @@
       <div class="poi-grid">
         <div class="photo-polaroid">
           <div class="photo-frame">
-            <span id="photo-placeholder" style="font-size: 10px; color: #78716c; font-family: 'IBM Plex Mono', monospace;">NO PHOTO ATTACHED</span>
+            <span class="photo-placeholder">NO PHOTO ATTACHED</span>
             <img id="poi-img" src="" alt="Subject Photo">
           </div>
           <div class="photo-caption">FIG 1. SUBJECT PROFILE</div>
@@ -567,13 +584,10 @@
   function loadGaleriPhoto(event) {
     const file = event.target.files[0];
     const img = document.getElementById("poi-img");
-    const placeholder = document.getElementById("photo-placeholder");
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
         img.src = e.target.result;
-        img.style.display = "block";
-        placeholder.style.display = "none";
       };
       reader.readAsDataURL(file);
     }
@@ -583,13 +597,10 @@
     const file = event.target.files[0];
     const card = inputEl.closest(".evidence-card");
     const img = card.querySelector(".ev-img");
-    const placeholder = card.querySelector(".ev-photo-placeholder");
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
         img.src = e.target.result;
-        img.style.display = "block";
-        placeholder.style.display = "none";
       };
       reader.readAsDataURL(file);
     }
@@ -637,4 +648,5 @@
 
 **[SUBJECT / PERSON OF INTEREST]**
 * **Name / Group:** ${document.getElementById("poi_name").value || "-"} (Alias: ${document.getElementById("poi_alias").value || "None"})
-* **ID / Plate:** ${document.getElementById("poi_id").value || "-"
+* **ID / Plate:** ${document.getElementById("poi_id").value || "-"}
+* **Affiliat
