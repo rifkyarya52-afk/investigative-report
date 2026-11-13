@@ -208,7 +208,6 @@
       cursor: pointer;
       font-weight: bold;
     }
-    /* EVIDENCE ITEM STYLING */
     .ev-item-row {
       display: flex;
       gap: 8px;
@@ -245,7 +244,6 @@
       position: absolute;
       z-index: 1;
     }
-
     .footer-note {
       text-align: center;
       font-size: 9px;
@@ -528,11 +526,11 @@
 
   function previewSuspect(event) {
     const file = event.target.files[0];
-    const img = document.getElementById("sus-img");
-    const placeholder = img.previousElementSibling;
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
+        const img = document.getElementById("sus-img");
+        const placeholder = img.parentElement.querySelector(".mug-placeholder");
         img.src = e.target.result;
         img.style.display = "block";
         if (placeholder) placeholder.style.display = "none";
@@ -543,12 +541,12 @@
 
   function previewEvidence(event, inputEl) {
     const file = event.target.files[0];
-    const row = inputEl.closest(".ev-item-row");
-    const img = row.querySelector(".ev-img");
-    const placeholder = row.querySelector(".ev-placeholder");
     if (file) {
       const reader = new FileReader();
       reader.onload = function(e) {
+        const row = inputEl.closest(".ev-item-row");
+        const img = row.querySelector(".ev-img");
+        const placeholder = row.querySelector(".ev-placeholder");
         img.src = e.target.result;
         img.style.display = "block";
         if (placeholder) placeholder.style.display = "none";
@@ -594,5 +592,4 @@
   function copyToDiscord() {
     let crimes = "";
     document.querySelectorAll(".crime-input").forEach(el => {
-      if (el.value.trim()) crimes += `> - ${el.value.trim()}\n`;
-  
+      if (el.value.trim()) crimes += `> - ${el.value.tr
