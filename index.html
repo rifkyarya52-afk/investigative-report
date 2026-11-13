@@ -240,15 +240,56 @@
       letter-spacing: 0.5px;
     }
 
-    /* EVIDENCE LOG LIST */
-    .evidence-row {
+    /* EVIDENCE LOG LIST WITH PHOTO */
+    .evidence-card {
+      border: 1px solid #a8a29e;
+      background: #fafaf9;
+      padding: 10px;
+      margin-bottom: 10px;
       display: grid;
       grid-template-columns: 110px 1fr 34px;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 12px;
+      align-items: center;
     }
     @media (max-width: 650px) {
-      .evidence-row { grid-template-columns: 1fr; }
+      .evidence-card { grid-template-columns: 1fr; }
+    }
+    .ev-photo-box {
+      width: 110px;
+      height: 95px;
+      background: #e7e5e4;
+      border: 1px dashed #78716c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .ev-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .ev-photo-placeholder {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: #78716c;
+      text-align: center;
+      padding: 4px;
+    }
+    .ev-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ev-top-inputs {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 8px;
+    }
+    @media (max-width: 650px) {
+      .ev-top-inputs { grid-template-columns: 1fr; }
     }
     .btn-small {
       background: #f5f2eb;
@@ -264,6 +305,7 @@
       background: #991b1b;
       color: #fff;
       border: none;
+      height: 34px;
       font-weight: bold;
       cursor: pointer;
     }
@@ -396,12 +438,12 @@
             <span id="photo-placeholder" style="font-size: 10px; color: #78716c; font-family: 'IBM Plex Mono', monospace;">NO PHOTO ATTACHED</span>
             <img id="poi-img" src="" alt="Subject Photo">
           </div>
-          <div class="photo-caption">FIG 1. SUBJECT / EVIDENCE</div>
+          <div class="photo-caption">FIG 1. SUBJECT PROFILE</div>
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div class="field">
-            <label>Lampirkan Foto Target / Bukti (Dari Galeri HP)</label>
+            <label>Lampirkan Foto Target (Dari Galeri HP)</label>
             <input type="file" accept="image/*" onchange="loadGaleriPhoto(event)" style="cursor: pointer; padding: 6px;">
           </div>
           <div class="grid-2">
@@ -447,16 +489,27 @@
     </div>
   </div>
 
-  <!-- SECTION 04: EVIDENCE LOG -->
+  <!-- SECTION 04: EVIDENCE LOG WITH PHOTO ATTACHMENT -->
   <div class="section-block">
     <div class="section-bar">
-      <span>04. EVIDENCE & INTELLIGENCE EXHIBITS</span>
+      <span>04. EVIDENCE & INTELLIGENCE EXHIBITS (WITH PHOTO)</span>
       <button type="button" class="btn-small" onclick="addEvidence()">+ TAMBAH BUKTI</button>
     </div>
     <div class="section-content" id="evidence-list">
-      <div class="evidence-row">
-        <div class="field"><input type="text" class="ev-id" placeholder="EVD-01"></div>
-        <div class="field"><input type="text" class="ev-desc" placeholder="Deskripsi Barang Bukti / Foto / Rekaman"></div>
+      <div class="evidence-card">
+        <div class="ev-photo-box">
+          <span class="ev-photo-placeholder">NO PHOTO</span>
+          <img class="ev-img" src="" alt="Evidence">
+        </div>
+        <div class="ev-details">
+          <div class="ev-top-inputs">
+            <div class="field"><input type="text" class="ev-id" placeholder="EVD-01"></div>
+            <div class="field"><input type="text" class="ev-desc" placeholder="Deskripsi Barang Bukti / Petunjuk"></div>
+          </div>
+          <div class="field">
+            <input type="file" accept="image/*" onchange="previewEvidencePhoto(event, this)" style="padding: 4px 6px; font-size: 11px; cursor: pointer;">
+          </div>
+        </div>
         <button type="button" class="btn-remove" onclick="this.parentElement.remove()">✕</button>
       </div>
     </div>
@@ -526,23 +579,50 @@
     }
   }
 
+  function previewEvidencePhoto(event, inputEl) {
+    const file = event.target.files[0];
+    const card = inputEl.closest(".evidence-card");
+    const img = card.querySelector(".ev-img");
+    const placeholder = card.querySelector(".ev-photo-placeholder");
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        img.src = e.target.result;
+        img.style.display = "block";
+        placeholder.style.display = "none";
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   function addEvidence() {
     const list = document.getElementById("evidence-list");
-    const row = document.createElement("div");
-    row.className = "evidence-row";
-    row.innerHTML = `
-      <div class="field"><input type="text" class="ev-id" placeholder="EVD-0X"></div>
-      <div class="field"><input type="text" class="ev-desc" placeholder="Deskripsi Barang Bukti / Petunjuk"></div>
+    const card = document.createElement("div");
+    card.className = "evidence-card";
+    card.innerHTML = `
+      <div class="ev-photo-box">
+        <span class="ev-photo-placeholder">NO PHOTO</span>
+        <img class="ev-img" src="" alt="Evidence">
+      </div>
+      <div class="ev-details">
+        <div class="ev-top-inputs">
+          <div class="field"><input type="text" class="ev-id" placeholder="EVD-0X"></div>
+          <div class="field"><input type="text" class="ev-desc" placeholder="Deskripsi Barang Bukti / Petunjuk"></div>
+        </div>
+        <div class="field">
+          <input type="file" accept="image/*" onchange="previewEvidencePhoto(event, this)" style="padding: 4px 6px; font-size: 11px; cursor: pointer;">
+        </div>
+      </div>
       <button type="button" class="btn-remove" onclick="this.parentElement.remove()">✕</button>
     `;
-    list.appendChild(row);
+    list.appendChild(card);
   }
 
   function copyToDiscord() {
     let evText = "";
-    document.querySelectorAll(".evidence-row").forEach(row => {
-      const id = row.querySelector(".ev-id").value || "-";
-      const desc = row.querySelector(".ev-desc").value || "-";
+    document.querySelectorAll(".evidence-card").forEach(card => {
+      const id = card.querySelector(".ev-id").value || "-";
+      const desc = card.querySelector(".ev-desc").value || "-";
       evText += `  * **[${id}]** ${desc}\n`;
     });
 
@@ -557,37 +637,4 @@
 
 **[SUBJECT / PERSON OF INTEREST]**
 * **Name / Group:** ${document.getElementById("poi_name").value || "-"} (Alias: ${document.getElementById("poi_alias").value || "None"})
-* **ID / Plate:** ${document.getElementById("poi_id").value || "-"}
-* **Affiliation:** ${document.getElementById("poi_gang").value || "None"}
-
-**[BACKGROUND & INTELLIGENCE]**
-${document.getElementById("background").value || "-"}
-
-**[INVESTIGATIVE FINDINGS]**
-${document.getElementById("narrative").value || "-"}
-
-**[EVIDENCE LOG]**
-${evText || "  * None\n"}
-**[INVESTIGATIVE PERSONNEL]**
-* **Lead Detective:** ${document.getElementById("lead_det").value || "-"}
-* **Co-Investigator:** ${document.getElementById("co_det").value || "-"}
-* **Supervisor:** ${document.getElementById("supervisor").value || "-"}`;
-
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Investigative Case File berhasil disalin untuk Discord!");
-    });
-  }
-
-  function saveDossierImage() {
-    const el = document.getElementById("dossier-capture");
-    html2canvas(el, { scale: 2, useCORS: true }).then(canvas => {
-      const link = document.createElement("a");
-      link.download = "LSPD-Investigative-Case-File.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
-  }
-</script>
-
-</body>
-</html>
+* **ID / Plate:** ${document.getElementById("poi_id").value || "-"
