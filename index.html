@@ -3,16 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LSPD — Investigative Report (Official Form)</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <title>LSPD — Investigative Report</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: #20232a;
+      background-color: #1a1d24;
       font-family: Arial, Helvetica, sans-serif;
       color: #1e293b;
       padding: 20px 10px;
@@ -20,78 +15,55 @@
       flex-direction: column;
       align-items: center;
     }
-
-    /* MAIN PAPER SHEET */
     .form-container {
       width: 100%;
       max-width: 820px;
-      background-color: #f8f9fa;
-      border: 1.5px solid #94a3b8;
-      padding: 28px 32px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      background-color: #ffffff;
+      border: 1.5px solid #64748b;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
     @media (max-width: 600px) {
-      .form-container { padding: 18px 14px; }
+      .form-container { padding: 15px; }
     }
-
-    /* HEADER */
     .doc-header {
       text-align: center;
-      margin-bottom: 18px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 12px;
     }
-    .doc-header img {
-      width: 52px;
-      height: auto;
-      margin-bottom: 6px;
-    }
-    .doc-header h1 {
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      color: #0f172a;
-      text-transform: uppercase;
-    }
-    .doc-header h2 {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #334155;
-      margin-top: 2px;
-      text-transform: uppercase;
-    }
+    .doc-header img { width: 50px; height: auto; margin-bottom: 4px; }
+    .doc-header h1 { font-size: 15px; font-weight: bold; color: #0f172a; text-transform: uppercase; }
+    .doc-header h2 { font-size: 12px; font-weight: bold; color: #334155; margin-top: 2px; text-transform: uppercase; }
 
-    /* STATUS BAR */
     .status-strip {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #ffffff;
-      border: 1px solid #94a3b8;
-      padding: 7px 12px;
-      margin-bottom: 14px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      margin-bottom: 12px;
     }
     .status-pill {
       font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-weight: bold;
       padding: 3px 10px;
-      border: 1.5px solid #dc2626;
+      border: 2px solid #dc2626;
       color: #dc2626;
-      background: #fef2f2;
+      background: #fff;
       text-transform: uppercase;
     }
     .status-pill.closed {
       border-color: #16a34a;
       color: #16a34a;
-      background: #f0fdf4;
     }
 
-    /* TABLE GRID CELLS */
     .grid-table {
       width: 100%;
       border: 1px solid #94a3b8;
       background: #ffffff;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; }
     .row-3 { display: grid; grid-template-columns: 1.2fr 0.9fr 0.9fr; }
@@ -99,12 +71,11 @@
     .row-sus { display: grid; grid-template-columns: 45px 55px 75px 95px 1fr 30px; }
     
     @media (max-width: 600px) {
-      .row-2, .row-3, .row-4 { grid-template-columns: 1fr; }
-      .row-sus { grid-template-columns: 1fr; }
+      .row-2, .row-3, .row-4, .row-sus { grid-template-columns: 1fr; }
     }
 
     .cell {
-      padding: 7px 10px;
+      padding: 6px 9px;
       border-right: 1px solid #cbd5e1;
       border-bottom: 1px solid #cbd5e1;
     }
@@ -113,138 +84,106 @@
 
     .cell label {
       display: block;
-      font-size: 9.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: bold;
       color: #475569;
       text-transform: uppercase;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
     .cell input, .cell select, .cell textarea {
       width: 100%;
       border: none;
       background: transparent;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 12px;
       color: #0f172a;
       outline: none;
     }
 
-    /* SECTION HEADINGS */
     .sec-heading {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10.5px;
+      font-weight: bold;
       color: #0f172a;
       text-transform: uppercase;
-      margin: 14px 0 6px 0;
+      margin: 12px 0 4px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .btn-add-row {
+    .btn-add {
       background: #334155;
-      color: #ffffff;
+      color: #fff;
       border: none;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 3px;
+      font-size: 9.5px;
+      font-weight: bold;
+      padding: 2px 6px;
       cursor: pointer;
     }
 
-    /* EXHIBIT CARD */
-    .exhibit-card {
-      background: #ffffff;
+    .exhibit-box {
+      background: #f8fafc;
       border: 1px solid #cbd5e1;
-      margin-bottom: 8px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .exhibit-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .exhibit-top input[type="text"] {
-      flex: 1;
-      border: none;
-      font-size: 12px;
-      font-weight: 600;
-      color: #1e293b;
-      outline: none;
-    }
-    .btn-del-small {
-      background: #dc2626;
-      color: #fff;
-      border: none;
-      padding: 4px 7px;
-      border-radius: 3px;
-      font-size: 10px;
-      cursor: pointer;
+      padding: 8px;
+      margin-bottom: 6px;
     }
     .exhibit-preview {
       max-width: 100%;
-      max-height: 220px;
-      object-fit: contain;
-      border: 1px solid #cbd5e1;
+      max-height: 200px;
+      margin-top: 6px;
       display: none;
+      border: 1px solid #cbd5e1;
     }
 
-    /* NARRATIVE BOX */
     .narrative-box {
       background: #ffffff;
       border: 1px solid #94a3b8;
-      padding: 12px;
-      margin-bottom: 14px;
+      padding: 10px;
+      margin-bottom: 12px;
     }
     .narrative-box label {
       display: block;
-      font-size: 10px;
-      font-weight: 700;
+      font-size: 9.5px;
+      font-weight: bold;
       color: #0f172a;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .narrative-box textarea {
       width: 100%;
-      min-height: 110px;
+      min-height: 100px;
       border: none;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12.5px;
-      line-height: 1.5;
-      color: #1e293b;
-      resize: vertical;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
       outline: none;
+      resize: vertical;
     }
 
-    /* CONTROLS */
     .controls {
       width: 100%;
       max-width: 820px;
       margin-top: 15px;
       display: flex;
-      gap: 10px;
+      gap: 8px;
       justify-content: center;
       flex-wrap: wrap;
     }
     .act-btn {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 10px 16px;
+      font-size: 11.5px;
+      font-weight: bold;
+      padding: 9px 14px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      color: #ffffff;
+      color: #fff;
     }
     .btn-bbcode { background: #0f172a; }
     .btn-discord { background: #4f46e5; }
-    .btn-png { background: #d97706; }
+    .btn-print { background: #16a34a; }
 
     @media print {
       body { background: #fff; padding: 0; }
-      .form-container { box-shadow: none; border: 1px solid #94a3b8; }
+      .form-container { box-shadow: none; border: none; padding: 0; }
       .controls { display: none; }
     }
   </style>
@@ -252,29 +191,28 @@
 <body>
 
 <div class="form-container" id="capture-area">
-  <!-- HEADER -->
   <div class="doc-header">
     <img src="https://i.imgur.com/3fSSqST.png" alt="LSPD Logo">
     <h1>LOS SANTOS POLICE DEPARTMENT</h1>
     <h2>INVESTIGATIVE REPORT</h2>
   </div>
 
-  <!-- CASE STATUS STRIP -->
+  <!-- STATUS STRIP -->
   <div class="status-strip">
     <div style="display:flex; align-items:center; gap:8px;">
-      <span style="font-size:10px; font-weight:700; color:#475569;">CASE STATUS:</span>
+      <span style="font-size:10px; font-weight:bold; color:#475569;">CASE STATUS:</span>
       <span class="status-pill" id="status-pill">OPEN</span>
     </div>
     <div style="display:flex; align-items:center; gap:6px;">
-      <label style="font-size:10px; font-weight:700; color:#475569;">UBAH:</label>
-      <select id="case_status_select" onchange="changeStatus(this.value)" style="font-size:11px; padding:2px 6px; border:1px solid #94a3b8; border-radius:3px; cursor:pointer;">
+      <label style="font-size:10px; font-weight:bold; color:#475569;">UBAH:</label>
+      <select id="case_status" onchange="changeStatus(this.value)" style="font-size:11px; padding:2px; border:1px solid #94a3b8; cursor:pointer;">
         <option value="OPEN">OPEN</option>
         <option value="CLOSED">CLOSED</option>
       </select>
     </div>
   </div>
 
-  <!-- REPORT OF & INVEST DIV -->
+  <!-- REPORT OF -->
   <div class="grid-table">
     <div class="row-2">
       <div class="cell no-bottom">
@@ -298,46 +236,22 @@
   <div class="sec-heading"><span>VICTIM</span></div>
   <div class="grid-table">
     <div class="row-4">
-      <div class="cell">
-        <label>FULL NAME</label>
-        <input type="text" id="vic_name" placeholder="Angelina Ayyara">
-      </div>
-      <div class="cell">
-        <label>SEX</label>
-        <select id="vic_sex">
-          <option>F</option>
-          <option>M</option>
-        </select>
-      </div>
-      <div class="cell">
-        <label>DESC</label>
-        <input type="text" id="vic_desc" placeholder="BLACK / WHITE">
-      </div>
-      <div class="cell">
-        <label>DOB</label>
-        <input type="text" id="vic_dob" placeholder="12/03/2001">
-      </div>
+      <div class="cell"><label>FULL NAME</label><input type="text" id="vic_name" placeholder="Angelina Ayyara"></div>
+      <div class="cell"><label>SEX</label><select id="vic_sex"><option>F</option><option>M</option></select></div>
+      <div class="cell"><label>DESC</label><input type="text" id="vic_desc" placeholder="BLACK"></div>
+      <div class="cell"><label>DOB</label><input type="text" id="vic_dob" placeholder="12/03/2001"></div>
     </div>
     <div class="row-3">
-      <div class="cell no-bottom">
-        <label>ADDRESS</label>
-        <input type="text" id="vic_address" placeholder="Los Santos, San Andreas">
-      </div>
-      <div class="cell no-bottom">
-        <label>PHONE</label>
-        <input type="text" id="vic_phone" placeholder="-">
-      </div>
-      <div class="cell no-bottom">
-        <label>OCCUPATION</label>
-        <input type="text" id="vic_occ" placeholder="Taxi Driver">
-      </div>
+      <div class="cell no-bottom"><label>ADDRESS</label><input type="text" id="vic_address" placeholder="Los Santos, San Andreas"></div>
+      <div class="cell no-bottom"><label>PHONE</label><input type="text" id="vic_phone" placeholder="-"></div>
+      <div class="cell no-bottom"><label>OCCUPATION</label><input type="text" id="vic_occ" placeholder="Taxi Driver"></div>
     </div>
   </div>
 
   <!-- SUSPECT(S) -->
   <div class="sec-heading">
     <span>SUSPECT(S)</span>
-    <button type="button" class="btn-add-row" onclick="addSuspect()">+ Tambah Suspect</button>
+    <button type="button" class="btn-add" onclick="addSuspect()">+ Suspect</button>
   </div>
   <div class="grid-table" id="suspect-table">
     <div class="row-sus suspect-row">
@@ -345,9 +259,9 @@
       <div class="cell no-bottom"><label>SEX</label><input type="text" class="s-sex" placeholder="M"></div>
       <div class="cell no-bottom"><label>DESC</label><input type="text" class="s-desc" placeholder="BLACK"></div>
       <div class="cell no-bottom"><label>DOB</label><input type="text" class="s-dob" placeholder="01/01/1999"></div>
-      <div class="cell no-bottom"><label>NAME & ADDRESS (OR NAME & CHARGE, IF ARRESTED)</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka"></div>
+      <div class="cell no-bottom"><label>NAME & ADDRESS / CHARGE</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka"></div>
       <div class="cell no-bottom" style="display:flex; align-items:center; justify-content:center;">
-        <button type="button" class="btn-del-small" onclick="this.closest('.suspect-row').remove()">✕</button>
+        <button type="button" onclick="this.closest('.suspect-row').remove()" style="background:#dc2626; color:#fff; border:none; padding:3px 6px; cursor:pointer;">✕</button>
       </div>
     </div>
   </div>
@@ -355,77 +269,50 @@
   <!-- EVIDENCE(S) -->
   <div class="sec-heading">
     <span>EVIDENCE(S)</span>
-    <button type="button" class="btn-add-row" onclick="addExhibit()">+ Tambah Exhibit</button>
+    <button type="button" class="btn-add" onclick="addExhibit()">+ Exhibit</button>
   </div>
-  <div id="exhibit-list" style="margin-bottom: 14px;">
-    <div class="exhibit-card">
-      <div class="exhibit-top">
-        <input type="text" class="ex-title" value="Exhibit 1 — Deskripsi Barang Bukti">
-        <button type="button" class="btn-del-small" onclick="this.closest('.exhibit-card').remove()">✕</button>
+  <div id="exhibit-list" style="margin-bottom: 12px;">
+    <div class="exhibit-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+        <input type="text" class="ex-title" value="Exhibit 1 — Deskripsi Barang Bukti" style="flex:1; border:none; font-weight:bold; font-size:12px; outline:none;">
+        <button type="button" onclick="this.closest('.exhibit-box').remove()" style="background:#dc2626; color:#fff; border:none; padding:2px 6px; font-size:10px; cursor:pointer;">✕</button>
       </div>
-      <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px; cursor:pointer;">
-      <img class="exhibit-preview" src="" alt="Exhibit Preview">
+      <input type="text" class="ex-url" placeholder="Paste Direct Link Foto (Imgur/Discord)" oninput="loadUrlImg(this)" style="width:100%; border:1px solid #cbd5e1; padding:4px; font-size:11px; margin-bottom:4px;">
+      <img class="exhibit-preview" src="" alt="Preview">
     </div>
   </div>
 
   <!-- NARRATIVE -->
   <div class="narrative-box">
     <label>NARRATIVE</label>
-    <textarea id="narrative" placeholder="On Sunday, October 11, 2026, at approximately 13:40 HRS..."></textarea>
+    <textarea id="narrative" placeholder="Jelaskan kronologi kejadian secara detail (5W+1H)..."></textarea>
   </div>
 
-  <!-- REPORTING & APPROVING PERSONNEL -->
+  <!-- PERSONNEL -->
   <div class="grid-table">
     <div class="row-3">
-      <div class="cell">
-        <label>REPORTING EMPLOYEE(S)</label>
-        <input type="text" id="rep_emp" placeholder="Police Officer II Dwayne Tyler">
-      </div>
-      <div class="cell">
-        <label>SERIAL NO.</label>
-        <input type="text" id="rep_serial" placeholder="25770">
-      </div>
-      <div class="cell">
-        <label>DIV/DETAIL</label>
-        <input type="text" id="rep_div" placeholder="Harbor Patrol Division">
-      </div>
+      <div class="cell"><label>REPORTING EMPLOYEE(S)</label><input type="text" id="rep_emp" placeholder="Police Officer II Name"></div>
+      <div class="cell"><label>SERIAL NO.</label><input type="text" id="rep_serial" placeholder="25770"></div>
+      <div class="cell"><label>DIV/DETAIL</label><input type="text" id="rep_div" placeholder="Harbor Patrol Division"></div>
     </div>
     <div class="row-3">
-      <div class="cell">
-        <label>SUPERVISOR APPROVING</label>
-        <input type="text" id="sup_emp" placeholder="Sergeant I Theodore Delamour">
-      </div>
-      <div class="cell">
-        <label>SERIAL NO.</label>
-        <input type="text" id="sup_serial" placeholder="51548">
-      </div>
-      <div class="cell">
-        <label>DIVISION</label>
-        <input type="text" id="sup_div" placeholder="Harbor Patrol Division">
-      </div>
+      <div class="cell"><label>SUPERVISOR APPROVING</label><input type="text" id="sup_emp" placeholder="Sergeant I Name"></div>
+      <div class="cell"><label>SERIAL NO.</label><input type="text" id="sup_serial" placeholder="51548"></div>
+      <div class="cell"><label>DIVISION</label><input type="text" id="sup_div" placeholder="Harbor Patrol Division"></div>
     </div>
     <div class="row-3">
-      <div class="cell no-bottom">
-        <label>DETECTIVE SUPERVISOR APPROVING</label>
-        <input type="text" id="det_emp" placeholder="Rank Firstname Lastname">
-      </div>
-      <div class="cell no-bottom">
-        <label>SERIAL NO.</label>
-        <input type="text" id="det_serial" placeholder="0000">
-      </div>
-      <div class="cell no-bottom">
-        <label>DIVISION</label>
-        <input type="text" id="det_div" placeholder="Division Name">
-      </div>
+      <div class="cell no-bottom"><label>DETECTIVE SUPERVISOR</label><input type="text" id="det_emp" placeholder="Rank Name"></div>
+      <div class="cell no-bottom"><label>SERIAL NO.</label><input type="text" id="det_serial" placeholder="0000"></div>
+      <div class="cell no-bottom"><label>DIVISION</label><input type="text" id="det_div" placeholder="Division Name"></div>
     </div>
   </div>
 </div>
 
-<!-- BUTTONS -->
+<!-- CONTROLS -->
 <div class="controls">
-  <button class="act-btn btn-bbcode" onclick="copyBBCode()">📋 Copy BBCode Forum</button>
-  <button class="act-btn btn-discord" onclick="copyDiscord()">💬 Copy Format Discord</button>
-  <button class="act-btn btn-png" onclick="downloadPNG()">📷 Simpan Gambar (PNG)</button>
+  <button class="act-btn btn-bbcode" onclick="copyBBCode()">📋 Copy BBCode</button>
+  <button class="act-btn btn-discord" onclick="copyDiscord()">💬 Copy Discord</button>
+  <button class="act-btn btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
 </div>
 
 <script>
@@ -436,6 +323,19 @@
       pill.classList.add("closed");
     } else {
       pill.classList.remove("closed");
+    }
+  }
+
+  function loadUrlImg(input) {
+    const url = input.value.trim();
+    const box = input.closest(".exhibit-box");
+    const img = box.querySelector(".exhibit-preview");
+    if (url) {
+      img.src = url;
+      img.style.display = "block";
+    } else {
+      img.src = "";
+      img.style.display = "none";
     }
   }
 
@@ -450,9 +350,9 @@
       <div class="cell no-bottom"><label>SEX</label><input type="text" class="s-sex" placeholder="M"></div>
       <div class="cell no-bottom"><label>DESC</label><input type="text" class="s-desc" placeholder="BLACK"></div>
       <div class="cell no-bottom"><label>DOB</label><input type="text" class="s-dob" placeholder="01/01/1999"></div>
-      <div class="cell no-bottom"><label>NAME & ADDRESS</label><input type="text" class="s-info" placeholder="Unknown / Nama Tersangka"></div>
+      <div class="cell no-bottom"><label>NAME & ADDRESS / CHARGE</label><input type="text" class="s-info" placeholder="Unknown"></div>
       <div class="cell no-bottom" style="display:flex; align-items:center; justify-content:center;">
-        <button type="button" class="btn-del-small" onclick="this.closest('.suspect-row').remove()">✕</button>
+        <button type="button" onclick="this.closest('.suspect-row').remove()" style="background:#dc2626; color:#fff; border:none; padding:3px 6px; cursor:pointer;">✕</button>
       </div>
     `;
     table.appendChild(row);
@@ -460,35 +360,22 @@
 
   function addExhibit() {
     const list = document.getElementById("exhibit-list");
-    const count = list.querySelectorAll(".exhibit-card").length + 1;
-    const card = document.createElement("div");
-    card.className = "exhibit-card";
-    card.innerHTML = `
-      <div class="exhibit-top">
-        <input type="text" class="ex-title" value="Exhibit ${count} — Deskripsi Barang Bukti">
-        <button type="button" class="btn-del-small" onclick="this.closest('.exhibit-card').remove()">✕</button>
+    const count = list.querySelectorAll(".exhibit-box").length + 1;
+    const box = document.createElement("div");
+    box.className = "exhibit-box";
+    box.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+        <input type="text" class="ex-title" value="Exhibit ${count} — Deskripsi Barang Bukti" style="flex:1; border:none; font-weight:bold; font-size:12px; outline:none;">
+        <button type="button" onclick="this.closest('.exhibit-box').remove()" style="background:#dc2626; color:#fff; border:none; padding:2px 6px; font-size:10px; cursor:pointer;">✕</button>
       </div>
-      <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px; cursor:pointer;">
-      <img class="exhibit-preview" src="" alt="Exhibit Preview">
+      <input type="text" class="ex-url" placeholder="Paste Direct Link Foto (Imgur/Discord)" oninput="loadUrlImg(this)" style="width:100%; border:1px solid #cbd5e1; padding:4px; font-size:11px; margin-bottom:4px;">
+      <img class="exhibit-preview" src="" alt="Preview">
     `;
-    list.appendChild(card);
-  }
-
-  function loadExhibitImg(event, input) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const card = input.closest(".exhibit-card");
-      const img = card.querySelector(".exhibit-preview");
-      img.src = e.target.result;
-      img.style.display = "block";
-    };
-    reader.readAsDataURL(file);
+    list.appendChild(box);
   }
 
   function copyDiscord() {
-    const status = document.getElementById("case_status_select").value;
+    const status = document.getElementById("case_status").value;
     let suspects = "";
     document.querySelectorAll(".suspect-row").forEach(r => {
       const id = r.querySelector(".s-id").value || "-";
@@ -500,8 +387,10 @@
     });
 
     let exhibits = "";
-    document.querySelectorAll(".ex-title").forEach(el => {
-      if (el.value.trim()) exhibits += `> - ${el.value.trim()}\n`;
+    document.querySelectorAll(".exhibit-box").forEach(box => {
+      const title = box.querySelector(".ex-title").value || "-";
+      const url = box.querySelector(".ex-url").value || "";
+      exhibits += `> - **${title}**${url ? ` (${url})` : ""}\n`;
     });
 
     const txt = `**LOS SANTOS POLICE DEPARTMENT — INVESTIGATIVE REPORT**
@@ -531,15 +420,17 @@ ${document.getElementById("narrative").value || "-"}
   }
 
   function copyBBCode() {
-    const status = document.getElementById("case_status_select").value;
+    const status = document.getElementById("case_status").value;
     let suspects = "";
     document.querySelectorAll(".suspect-row").forEach(r => {
       suspects += `[tr][td]${r.querySelector(".s-id").value}[/td][td]${r.querySelector(".s-sex").value}[/td][td]${r.querySelector(".s-desc").value}[/td][td]${r.querySelector(".s-dob").value}[/td][td]${r.querySelector(".s-info").value}[/td][/tr]\n`;
     });
 
     let exhibits = "";
-    document.querySelectorAll(".ex-title").forEach(el => {
-      exhibits += `[spoiler=${el.value}]Link Foto Bukti[/spoiler]\n`;
+    document.querySelectorAll(".exhibit-box").forEach(box => {
+      const title = box.querySelector(".ex-title").value || "-";
+      const url = box.querySelector(".ex-url").value || "";
+      exhibits += `[spoiler=${title}]${url ? `[img]${url}[/img]` : "Tidak ada gambar"}[/spoiler]\n`;
     });
 
     const bb = `[divbox=white][center][img]https://i.imgur.com/3fSSqST.png[/img]
@@ -550,7 +441,7 @@ ${document.getElementById("narrative").value || "-"}
 [b]REPORT OF:[/b] ${document.getElementById("report_of").value || "-"}
 [b]INVEST DIV.:[/b] ${document.getElementById("invest_div").value}
 
-[b]VICTIM[/b]
+[b]VICT_IM[/b]
 [b]FULL NAME:[/b] ${document.getElementById("vic_name").value || "-"} | [b]SEX:[/b] ${document.getElementById("vic_sex").value} | [b]DESC:[/b] ${document.getElementById("vic_desc").value || "-"} | [b]DOB:[/b] ${document.getElementById("vic_dob").value || "-"}
 [b]ADDRESS:[/b] ${document.getElementById("vic_address").value || "-"} | [b]PHONE:[/b] ${document.getElementById("vic_phone").value || "-"} | [b]OCCUPATION:[/b] ${document.getElementById("vic_occ").value || "-"}
 
@@ -569,7 +460,7 @@ ${document.getElementById("narrative").value || "-"}
 
     navigator.clipboard.writeText(bb).then(() => alert("Format BBCode Forum berhasil disalin!"));
   }
+</script>
 
-  function downloadPNG() {
-    const area = document.getElementById("capture-area");
-    html2canvas(area, { scale: 2, useCORS: true, allowTaint: tru
+</body>
+</html>
