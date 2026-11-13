@@ -3,331 +3,485 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LSPD Form 03.01.00 — Investigative Report</title>
+  <title>LSPD — Investigative Report (Form 03.01.00)</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Oswald:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      font-family: "Courier New", Courier, monospace;
+    }
     body {
-      background-color: #18181b;
-      color: #0f172a;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 25px 12px;
+      background-color: #1e2229;
+      margin: 0;
+      padding: 20px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-
-    .report-sheet {
-      width: 100%;
-      max-width: 880px;
+    .paper {
       background: #ffffff;
-      border: 2px solid #0f172a;
-      border-top: 10px solid #0b2239;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      width: 100%;
+      max-width: 850px;
       padding: 35px 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border-top: 8px solid #0b2239;
+      color: #111;
       position: relative;
     }
-    @media (max-width: 650px) { .report-sheet { padding: 20px 16px; } }
-
-    .top-meta {
-      display: flex;
-      justify-content: space-between;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      color: #475569;
-      margin-bottom: 12px;
-      border-bottom: 1px solid #cbd5e1;
-      padding-bottom: 6px;
+    .watermark-note {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      font-size: 9px;
+      font-weight: bold;
+      color: #555;
+      letter-spacing: 1px;
     }
-
-    .doc-header {
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #111;
+      padding-bottom: 12px;
+      margin-bottom: 15px;
+    }
+    .lspd-logo {
+      width: 55px;
+      height: auto;
+      margin-bottom: 4px;
+    }
+    .header h1 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      margin: 0;
+      color: #0b2239;
+      font-weight: bold;
+    }
+    .header h2 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      margin: 3px 0;
+      color: #333;
+    }
+    .header h3 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin: 5px 0 0;
+      color: #111;
+      border-top: 1px solid #111;
+      display: inline-block;
+      padding-top: 3px;
+    }
+    .stamp-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 3px solid #0b2239;
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-      gap: 15px;
+      border: 1.5px solid #111;
+      background: #f8fafc;
+      padding: 8px 12px;
+      margin-bottom: -1.5px;
+      font-size: 11px;
+    }
+    .stamp-badge {
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: #dc2626;
+      border: 2px solid #dc2626;
+      padding: 2px 8px;
+      font-size: 12px;
+      transform: rotate(-1.5deg);
+      background: #fff;
+    }
+    .stamp-badge.closed {
+      color: #16a34a;
+      border-color: #16a34a;
+    }
+    .section-box {
+      border: 1.5px solid #111;
+      margin-bottom: -1.5px;
+    }
+    .section-title {
+      background-color: #0b2239;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 4px 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .sub-box {
+      padding: 6px 8px;
+      border-right: 1.5px solid #111;
+      border-top: 1.5px solid #111;
+      font-size: 11px;
+    }
+    .sub-box:last-child {
+      border-right: none;
+    }
+    .sub-box label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      font-size: 10px;
+      color: #334155;
+    }
+    .sub-box input, .sub-box select, .sub-box textarea {
+      width: 100%;
+      border: none;
+      background: #f9fafb;
+      padding: 4px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 12px;
+      outline: none;
+    }
+    .sub-box textarea {
+      resize: vertical;
+      min-height: 80px;
+      border: 1px solid #ccc;
+    }
+    .suspect-layout {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+    }
+    .mugshot-box {
+      width: 130px;
+      height: 150px;
+      background: #e2e8f0;
+      border-right: 1.5px solid #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mugshot-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      display: none;
+    }
+    .dyn-row {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 4px;
+    }
+    .btn-mini {
+      background: #0b2239;
+      color: #fff;
+      border: none;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 2px 6px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .btn-del {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .footer-note {
+      text-align: center;
+      font-size: 9px;
+      color: #444;
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+    }
+    .actions-bar {
+      width: 100%;
+      max-width: 850px;
+      background: #282d37;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 6px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
       flex-wrap: wrap;
     }
-    .agency-brand { display: flex; align-items: center; gap: 15px; }
-    .agency-brand img { width: 65px; height: auto; }
-    .agency-titles h1 { font-family: 'Oswald', sans-serif; font-size: 24px; color: #0b2239; line-height: 1.1; }
-    .agency-titles h2 { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; color: #1e293b; margin-top: 3px; }
-    .form-tag { display: inline-block; background: #0b2239; color: #fff; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; padding: 2px 8px; margin-top: 5px; }
-
-    .stamp-box {
-      border: 3px solid #dc2626; color: #dc2626; padding: 8px 16px;
-      font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase; transform: rotate(-2.5deg);
-      background: #fff; text-align: center;
+    button.act-btn {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 10px 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      color: #fff;
     }
-    .stamp-box.closed { border-color: #16a34a; color: #16a34a; }
-    .stamp-sub { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 8px; }
-
-    .sec-box { border: 1.5px solid #1e293b; margin-bottom: 16px; }
-    .sec-title {
-      background: #0b2239; color: #ffffff;
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700;
-      padding: 6px 12px; display: flex; justify-content: space-between; align-items: center;
-    }
-    .sec-body { padding: 14px; }
-
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    @media (max-width: 650px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
-
-    .field { display: flex; flex-direction: column; gap: 4px; }
-    .field label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; }
-    .field input, .field select, .field textarea {
-      width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; border-bottom: 1.5px solid #0f172a;
-      padding: 7px 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #0f172a; outline: none;
-    }
-    .field textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
-
-    .check-group { display: flex; gap: 14px; flex-wrap: wrap; padding: 6px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
-    .check-group label { display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; }
-
-    .suspect-wrap { display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: start; }
-    @media (max-width: 650px) { .suspect-wrap { grid-template-columns: 1fr; } }
-
-    .photo-box {
-      width: 140px; height: 160px; background: #f1f5f9; border: 1.5px dashed #64748b;
-      display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
-    }
-    .photo-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
-    .photo-box span { font-family: 'IBM Plex Mono'; font-size: 9px; color: #64748b; text-align: center; position: absolute; }
-
-    .dyn-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-    
-    .ev-item-card {
-      border: 1px solid #cbd5e1; background: #f8fafc; padding: 10px; margin-bottom: 10px;
-      display: grid; grid-template-columns: 1fr 32px; gap: 10px; align-items: center;
-    }
-
-    .btn-mini { background: #fff; color: #0b2239; border: none; font-family: 'IBM Plex Mono'; font-size: 10px; font-weight: 700; padding: 3px 8px; cursor: pointer; }
-    .btn-del { background: #dc2626; color: #fff; border: none; height: 32px; width: 32px; font-weight: bold; cursor: pointer; }
-
-    .doc-footer { border-top: 2px solid #0b2239; padding-top: 10px; margin-top: 10px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono'; font-size: 10px; color: #475569; }
-    .action-bar { width: 100%; max-width: 880px; margin-top: 16px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-    .btn-act { font-family: 'Plus Jakarta Sans'; font-size: 12px; font-weight: 700; padding: 11px 18px; border: none; border-radius: 5px; cursor: pointer; color: #fff; }
-    .btn-discord { background: #4f46e5; }
-    .btn-png { background: #0284c7; }
+    .btn-discord { background: #0b2239; }
+    .btn-img { background: #b8860b; }
     .btn-print { background: #16a34a; }
-
-    @media print { body { background: #fff; padding: 0; } .report-sheet { box-shadow: none; border: none; padding: 0; } .action-bar { display: none; } }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .paper { box-shadow: none; border: none; padding: 0; }
+      .actions-bar { display: none; }
+    }
   </style>
 </head>
 <body>
 
-<div class="report-sheet" id="report-capture">
-  <div class="top-meta">
-    <span>LOS SANTOS POLICE DEPARTMENT — OFFICIAL RECORD</span>
-    <span>FORM: LSPD 03.01.00</span>
+<div class="paper" id="report-form">
+  <div class="watermark-note">FORM: LSPD 03.01.00</div>
+  
+  <div class="header">
+    <img src="https://i.imgur.com/3fSSqST.png" alt="LSPD Logo" class="lspd-logo">
+    <h1>LOS SANTOS POLICE DEPARTMENT</h1>
+    <h2>INVESTIGATIVE REPORT RECORD</h2>
+    <h3>GENERAL & DETECTIVE FIELD DIVISION</h3>
   </div>
 
-  <div class="doc-header">
-    <div class="agency-brand">
-      <img src="https://i.imgur.com/3fSSqST.png" alt="LSPD Logo">
-      <div class="agency-titles">
-        <h1>LOS SANTOS POLICE DEPARTMENT</h1>
-        <h2>INVESTIGATIVE REPORT</h2>
-        <span class="form-tag">FORM: LSPD 03.01.00</span>
-      </div>
-    </div>
-
-    <div class="stamp-box" id="status-stamp">
-      CASE STATUS: <span id="stamp-label">OPEN</span>
-      <span class="stamp-sub">OFFICIAL DEPARTMENT RECORD</span>
+  <!-- STATUS & STAMP BAR -->
+  <div class="stamp-container">
+    <div><strong>CASE STATUS:</strong></div>
+    <div class="stamp-badge" id="status-badge-ui">OPEN</div>
+    <div style="display: flex; align-items: center; gap: 5px;">
+      <label style="font-size: 10px; font-weight: bold;">Ubah Status:</label>
+      <select id="case_status" onchange="updateCaseStatus(this.value)" style="border: 1px solid #111; padding: 2px; font-size: 11px;">
+        <option value="OPEN">OPEN</option>
+        <option value="CLOSED">CLOSED</option>
+      </select>
     </div>
   </div>
 
   <!-- I. INCIDENT INFORMATION -->
-  <div class="sec-box">
-    <div class="sec-title">
-      <span>I. INCIDENT INFORMATION</span>
-      <div style="display:flex; align-items:center; gap:6px;">
-        <span style="font-size:10px;">STATUS:</span>
-        <select id="case_status" onchange="updateStamp(this.value)" style="font-family:'IBM Plex Mono'; font-size:10px; padding:2px 6px; font-weight:700; cursor:pointer;">
-          <option value="OPEN">OPEN</option>
-          <option value="CLOSED">CLOSED</option>
-        </select>
+  <div class="section-box">
+    <div class="section-title">
+      <span>I. Incident Information</span>
+    </div>
+    <div class="grid-2">
+      <div class="sub-box" style="border-top:none;">
+        <label>DR Number</label>
+        <input type="text" id="dr_no" placeholder="26-05-00">
+      </div>
+      <div class="sub-box" style="border-top:none; border-right:none;">
+        <label>Date & Time</label>
+        <input type="text" id="date_time" placeholder="18/01/2026 - 23:30">
       </div>
     </div>
-    <div class="sec-body">
-      <div class="grid-2" style="margin-bottom: 10px;">
-        <div class="field"><label>DR Number</label><input type="text" id="dr_no" placeholder="26-05-00"></div>
-        <div class="field"><label>Date & Time</label><input type="text" id="date_time" placeholder="18/01/2026 - 23:30"></div>
+    <div class="grid-2" style="border-top: 1.5px solid #111;">
+      <div class="sub-box" style="border-top:none;">
+        <label>Location</label>
+        <input type="text" id="location" placeholder="Jefferson Motel">
       </div>
-      <div class="grid-2" style="margin-bottom: 12px;">
-        <div class="field"><label>Location</label><input type="text" id="location" placeholder="Jefferson Motel"></div>
-        <div class="field"><label>Area / Division Jurisdiction</label><input type="text" id="area" placeholder="05 Harbor"></div>
+      <div class="sub-box" style="border-top:none; border-right:none;">
+        <label>Area / Jurisdiction</label>
+        <input type="text" id="area" placeholder="05 Harbor">
       </div>
-      <div class="field">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-          <label>Crime Code</label>
-          <button type="button" onclick="addCrime()" style="background:#0b2239; color:#fff; border:none; font-size:10px; padding:2px 8px; cursor:pointer; font-family:'IBM Plex Mono';">+ TAMBAH PASAL</button>
+    </div>
+    <div class="sub-box" style="border-right:none; border-top: 1.5px solid #111;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+        <label style="margin:0;">Crime Code (Penal Code)</label>
+        <button type="button" class="btn-mini" onclick="addCrime()">+ Pasal</button>
+      </div>
+      <div id="crime-list" style="display: flex; flex-direction: column; gap: 4px;">
+        <div class="dyn-row">
+          <input type="text" class="crime-input" value="(1)11. First Degree Murder" style="border:1px solid #ccc;">
+          <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
         </div>
-        <div id="crime-list">
-          <div class="dyn-row"><input type="text" class="crime-input" placeholder="(1)11. First Degree Murder"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button></div>
-          <div class="dyn-row"><input type="text" class="crime-input" placeholder="(6)02. Possession of an Illegal Firearm"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button></div>
+        <div class="dyn-row">
+          <input type="text" class="crime-input" value="(6)02. Possession of an Illegal Firearm" style="border:1px solid #ccc;">
+          <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- II. VICTIM / REPORTING PARTY -->
-  <div class="sec-box">
-    <div class="sec-title"><span>II. VICTIM / REPORTING PARTY</span></div>
-    <div class="sec-body">
-      <div class="grid-2" style="margin-bottom: 10px;">
-        <div class="field"><label>Full Name</label><input type="text" id="victim_name" placeholder="Officer Michael Burk"></div>
-        <div class="field"><label>Contact / Phone #</label><input type="text" id="victim_contact" placeholder="99999"></div>
+  <div class="section-box">
+    <div class="section-title"><span>II. Victim / Reporting Party</span></div>
+    <div class="grid-2">
+      <div class="sub-box" style="border-top:none;">
+        <label>Full Name & Rank</label>
+        <input type="text" id="victim_name" placeholder="Officer Michael Burk">
       </div>
-      <div class="field">
-        <label>Condition</label>
-        <div class="check-group">
-          <label><input type="radio" name="victim_cond" value="Uninjured" checked> Uninjured</label>
-          <label><input type="radio" name="victim_cond" value="Injured"> Injured</label>
-          <label><input type="radio" name="victim_cond" value="Deceased"> Deceased</label>
-        </div>
+      <div class="sub-box" style="border-top:none; border-right:none;">
+        <label>Contact Phone #</label>
+        <input type="text" id="victim_contact" placeholder="99999">
+      </div>
+    </div>
+    <div class="sub-box" style="border-right:none; border-top: 1.5px solid #111;">
+      <label>Condition</label>
+      <div style="display: flex; gap: 15px; font-size: 11px; padding-top: 3px;">
+        <label><input type="radio" name="v_cond" value="Uninjured" checked> Uninjured</label>
+        <label><input type="radio" name="v_cond" value="Injured"> Injured</label>
+        <label><input type="radio" name="v_cond" value="Deceased"> Deceased</label>
       </div>
     </div>
   </div>
 
   <!-- III. SUSPECT DESCRIPTION -->
-  <div class="sec-box">
-    <div class="sec-title"><span>III. SUSPECT DESCRIPTION</span></div>
-    <div class="sec-body">
-      <div class="suspect-wrap">
-        <div style="display:flex; flex-direction:column; gap:6px;">
-          <div class="photo-box">
-            <span>NO PHOTO</span>
-            <img id="suspect-img" src="" alt="Suspect">
-          </div>
-          <input type="text" id="sus_photo_url" placeholder="Paste Link Foto (Imgur)" oninput="updateUrlImg(this.value, 'suspect-img')" style="font-size:10px; padding:4px;">
+  <div class="section-box">
+    <div class="section-title"><span>III. Suspect Description</span></div>
+    <div class="suspect-layout">
+      <div class="mugshot-box">
+        <span style="font-size: 9px; color: #555; text-align: center; padding: 5px;" id="sus-txt">FOTO SUSPECT (URL)</span>
+        <img id="sus-img" src="" alt="Suspect">
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div class="sub-box" style="border-top:none; border-right:none;">
+          <label>Link Foto Suspect (Imgur Direct Link)</label>
+          <input type="text" id="sus_photo_url" placeholder="https://i.imgur.com/xxxx.png" oninput="updateSusPhoto(this.value)" style="border: 1px solid #ccc;">
         </div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div class="field">
-            <label>Suspect Status</label>
-            <div class="check-group">
-              <label><input type="radio" name="sus_status" value="Outstanding (Kabur)" checked> Outstanding (Kabur)</label>
-              <label><input type="radio" name="sus_status" value="Arrested (Tertangkap)"> Arrested (Tertangkap)</label>
-            </div>
+        <div class="sub-box" style="border-right:none; border-top: 1.5px solid #111;">
+          <label>Suspect Status</label>
+          <div style="display: flex; gap: 15px; font-size: 11px; padding-top: 3px;">
+            <label><input type="radio" name="s_stat" value="Outstanding (Kabur)" checked> Outstanding (Kabur)</label>
+            <label><input type="radio" name="s_stat" value="Arrested (Tertangkap)"> Arrested (Tertangkap)</label>
           </div>
-          <div class="grid-2">
-            <div class="field"><label>Gender / Race</label><input type="text" id="sus_gender" placeholder="M - Black"></div>
-            <div class="field"><label>Clothing</label><input type="text" id="sus_clothing" placeholder="Black Hoodie, Grey Cargo"></div>
+        </div>
+        <div class="grid-2" style="border-top: 1.5px solid #111;">
+          <div class="sub-box" style="border-top:none;">
+            <label>Gender / Race</label>
+            <input type="text" id="sus_gender" placeholder="M - Black">
           </div>
-          <div class="field"><label>Physical Details (Tinggi, Berat, Ciri, Tato)</label><input type="text" id="sus_details" placeholder="185 cm, 59 Kg, MS-13 on Left Arm"></div>
+          <div class="sub-box" style="border-top:none; border-right:none;">
+            <label>Clothing</label>
+            <input type="text" id="sus_clothing" placeholder="Black Hoodie, Red Shoes">
+          </div>
         </div>
       </div>
+    </div>
+    <div class="sub-box" style="border-right:none; border-top: 1.5px solid #111;">
+      <label>Physical Details (Tinggi, Berat, Ciri Khas, Tato, Luka)</label>
+      <input type="text" id="sus_details" placeholder="185 cm, 59 Kg, MS-13 on Left Arm, Spider at left neck">
     </div>
   </div>
 
   <!-- IV. VEHICLE INFORMATION -->
-  <div class="sec-box">
-    <div class="sec-title"><span>IV. VEHICLE INFORMATION</span></div>
-    <div class="sec-body">
-      <div class="grid-3">
-        <div class="field"><label>Suspect Vehicle & Plate</label><input type="text" id="veh_model" placeholder="Brown Premier - NONE"></div>
-        <div class="field"><label>Direction of Travel</label><input type="text" id="veh_dir" placeholder="South heading to Market"></div>
-        <div class="field"><label>Vehicle Taken(s)</label><input type="text" id="veh_taken" placeholder="-"></div>
+  <div class="section-box">
+    <div class="section-title"><span>IV. Vehicle Information</span></div>
+    <div class="grid-3">
+      <div class="sub-box" style="border-top:none;">
+        <label>Suspect Vehicle</label>
+        <input type="text" id="veh_model" placeholder="Brown Premier - NONE">
+      </div>
+      <div class="sub-box" style="border-top:none;">
+        <label>Direction of Travel</label>
+        <input type="text" id="veh_dir" placeholder="South heading to Market">
+      </div>
+      <div class="sub-box" style="border-top:none; border-right:none;">
+        <label>Vehicle Taken(s)</label>
+        <input type="text" id="veh_taken" placeholder="-">
       </div>
     </div>
   </div>
 
   <!-- V. NARRATIVE -->
-  <div class="sec-box">
-    <div class="sec-title"><span>V. NARRATIVE (5W + 1H)</span></div>
-    <div class="sec-body">
-      <div class="field"><label>Source of Activity, Investigation, & Action Taken</label><textarea id="narrative" placeholder="Jelaskan kronologi kejadian secara detail..."></textarea></div>
+  <div class="section-box">
+    <div class="section-title"><span>V. Narrative (5W + 1H)</span></div>
+    <div class="sub-box" style="border-right:none; border-top:none;">
+      <label>Source of Activity, Investigation (TKP), & Action Taken</label>
+      <textarea id="narrative" placeholder="Jelaskan kronologi kejadian secara detail..."></textarea>
     </div>
   </div>
 
   <!-- VI. EVIDENCE & WITNESSES -->
-  <div class="sec-box">
-    <div class="sec-title" style="display:flex; justify-content:space-between; align-items:center;">
-      <span>VI. EVIDENCE & WITNESSES</span>
-      <button type="button" class="btn-mini" onclick="addEvidenceItem()">+ TAMBAH BUKTI</button>
+  <div class="section-box">
+    <div class="section-title">
+      <span>VI. Evidence & Witnesses</span>
+      <button type="button" class="btn-mini" onclick="addEvidence()">+ Bukti</button>
     </div>
-    <div class="sec-body">
-      <label style="font-family:'IBM Plex Mono'; font-size:10px; font-weight:700; color:#475569; display:block; margin-bottom:6px;">EVIDENCE LOG:</label>
-      <div id="evidence-container">
-        <div class="ev-item-card">
-          <input type="text" class="ev-desc" placeholder="1. Selongsong peluru 9mm" style="background:#fff; border:1px solid #cbd5e1; padding:6px; font-family:'IBM Plex Mono'; font-size:12px;">
+    <div class="sub-box" style="border-right:none; border-top:none;">
+      <label style="margin-bottom: 5px;">Evidence Log:</label>
+      <div id="evidence-list" style="display: flex; flex-direction: column; gap: 4px;">
+        <div class="dyn-row">
+          <input type="text" class="ev-input" value="1. Selongsong peluru 9mm" style="border:1px solid #ccc;">
           <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
         </div>
       </div>
-
-      <div style="margin-top: 14px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-          <label style="font-family:'IBM Plex Mono'; font-size:10px; font-weight:700; color:#475569;">WITNESS LIST:</label>
-          <button type="button" onclick="addWitness()" style="background:#0b2239; color:#fff; border:none; font-size:10px; padding:2px 8px; cursor:pointer; font-family:'IBM Plex Mono';">+ TAMBAH SAKSI</button>
-        </div>
-        <div id="witness-list">
-          <div class="dyn-row"><input type="text" class="wit-input" placeholder="Hudson Jamilton - 50505" style="width:100%; background:#f8fafc; border:1px solid #cbd5e1; border-bottom:1.5px solid #0f172a; padding:7px 10px; font-family:'IBM Plex Mono'; font-size:12px;"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button></div>
+    </div>
+    <div class="sub-box" style="border-right:none; border-top: 1.5px solid #111;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+        <label style="margin:0;">Witness List:</label>
+        <button type="button" class="btn-mini" onclick="addWitness()">+ Saksi</button>
+      </div>
+      <div id="witness-list" style="display: flex; flex-direction: column; gap: 4px;">
+        <div class="dyn-row">
+          <input type="text" class="wit-input" value="1. Hudson Jamilton - 50505" style="border:1px solid #ccc;">
+          <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- REPORTING OFFICER -->
-  <div class="sec-box">
-    <div class="sec-title"><span>REPORTING OFFICER</span></div>
-    <div class="sec-body">
-      <div class="grid-3">
-        <div class="field"><label>Name & Rank</label><input type="text" id="off_name" placeholder="Alexander Miguel, PO II"></div>
-        <div class="field"><label>Badge Number</label><input type="text" id="off_badge" placeholder="76582"></div>
-        <div class="field">
-          <label>Detail / Division</label>
-          <select id="off_detail">
-            <option>Harbor Patrol Division</option>
-            <option>Harbor Detective Area</option>
-            <option>Harbor Gang Detective</option>
-            <option>Metropolitan Division</option>
-            <option>Harbor Gang Impact Team</option>
-          </select>
-        </div>
+  <div class="section-box">
+    <div class="section-title"><span>Reporting Officer Details</span></div>
+    <div class="grid-3">
+      <div class="sub-box" style="border-top:none;">
+        <label>Name & Rank</label>
+        <input type="text" id="off_name" placeholder="Alexander Miguel, PO II">
+      </div>
+      <div class="sub-box" style="border-top:none;">
+        <label>Badge Number</label>
+        <input type="text" id="off_badge" placeholder="76582">
+      </div>
+      <div class="sub-box" style="border-top:none; border-right:none;">
+        <label>Division / Detail</label>
+        <select id="off_detail">
+          <option>Harbor Patrol Division</option>
+          <option>Harbor Detective Area</option>
+          <option>Harbor Gang Detective</option>
+          <option>Metropolitan Division</option>
+          <option>Harbor Gang Impact Team</option>
+        </select>
       </div>
     </div>
   </div>
 
-  <div class="doc-footer">
-    <span>FORM: LSPD 03.01.00 — LOS SANTOS POLICE DEPARTMENT</span>
-    <span>OFFICIAL INVESTIGATIVE RECORD</span>
+  <div class="footer-note">
+    FORM: LSPD 03.01.00 — OFFICIAL INVESTIGATIVE RECORD (LOS SANTOS POLICE DEPARTMENT)
   </div>
 </div>
 
-<div class="action-bar">
-  <button class="btn-act btn-discord" onclick="copyToDiscord()">📋 Copy Teks (Format Discord)</button>
-  <button class="btn-act btn-png" onclick="downloadImage()">📷 Simpan Gambar (PNG)</button>
-  <button class="btn-act btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
+<!-- TOMBOL AKSI -->
+<div class="actions-bar">
+  <button class="act-btn btn-discord" onclick="copyToDiscord()">📋 Copy Teks (Discord)</button>
+  <button class="act-btn btn-img" onclick="saveAsImage()">📷 Simpan Gambar (PNG)</button>
+  <button class="act-btn btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
 </div>
 
 <script>
-  function updateStamp(val) {
-    const box = document.getElementById("status-stamp");
-    const lbl = document.getElementById("stamp-label");
-    lbl.innerText = val;
-    if (val === "CLOSED") box.classList.add("closed");
-    else box.classList.remove("closed");
+  function updateCaseStatus(val) {
+    const badge = document.getElementById("status-badge-ui");
+    badge.innerText = val;
+    if (val === "CLOSED") {
+      badge.classList.add("closed");
+    } else {
+      badge.classList.remove("closed");
+    }
   }
 
-  function updateUrlImg(url, imgId) {
-    const img = document.getElementById(imgId);
-    const txt = img.previousElementSibling;
+  function updateSusPhoto(url) {
+    const img = document.getElementById("sus-img");
+    const txt = document.getElementById("sus-txt");
     if (url.trim() !== "") {
       img.src = url;
       img.style.display = "block";
-      if (txt) txt.style.display = "none";
+      txt.style.display = "none";
     } else {
       img.src = "";
       img.style.display = "none";
-      if (txt) txt.style.display = "block";
+      txt.style.display = "block";
     }
   }
 
@@ -335,26 +489,23 @@
     const list = document.getElementById("crime-list");
     const row = document.createElement("div");
     row.className = "dyn-row";
-    row.innerHTML = `<input type="text" class="crime-input" placeholder="(X)XX. Nama Pasal"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>`;
+    row.innerHTML = `<input type="text" class="crime-input" placeholder="Pasal Pelanggaran" style="border:1px solid #ccc;"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>`;
     list.appendChild(row);
   }
 
-  function addEvidenceItem() {
-    const container = document.getElementById("evidence-container");
-    const card = document.createElement("div");
-    card.className = "ev-item-card";
-    card.innerHTML = `
-      <input type="text" class="ev-desc" placeholder="Deskripsi Barang Bukti" style="background:#fff; border:1px solid #cbd5e1; padding:6px; font-family:'IBM Plex Mono'; font-size:12px;">
-      <button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>
-    `;
-    container.appendChild(card);
+  function addEvidence() {
+    const list = document.getElementById("evidence-list");
+    const row = document.createElement("div");
+    row.className = "dyn-row";
+    row.innerHTML = `<input type="text" class="ev-input" placeholder="Deskripsi Barang Bukti" style="border:1px solid #ccc;"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>`;
+    list.appendChild(row);
   }
 
   function addWitness() {
     const list = document.getElementById("witness-list");
     const row = document.createElement("div");
     row.className = "dyn-row";
-    row.innerHTML = `<input type="text" class="wit-input" placeholder="Nama Saksi - Nomor HP" style="width:100%; background:#f8fafc; border:1px solid #cbd5e1; border-bottom:1.5px solid #0f172a; padding:7px 10px; font-family:'IBM Plex Mono'; font-size:12px;"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>`;
+    row.innerHTML = `<input type="text" class="wit-input" placeholder="Nama Saksi - No HP" style="border:1px solid #ccc;"><button type="button" class="btn-del" onclick="this.parentElement.remove()">✕</button>`;
     list.appendChild(row);
   }
 
@@ -364,27 +515,27 @@
       if (el.value.trim()) crimes += `> - ${el.value.trim()}\n`;
     });
 
-    const vCond = document.querySelector('input[name="victim_cond"]:checked').value;
+    const vCond = document.querySelector('input[name="v_cond"]:checked').value;
     const condText = `[ ${vCond === "Uninjured" ? "X" : " "} ] Uninjured  [ ${vCond === "Injured" ? "X" : " "} ] Injured  [ ${vCond === "Deceased" ? "X" : " "} ] Deceased`;
 
-    const sStat = document.querySelector('input[name="sus_status"]:checked').value;
+    const sStat = document.querySelector('input[name="s_stat"]:checked').value;
     const statText = `[ ${sStat.includes("Outstanding") ? "X" : " "} ] Outstanding (Kabur)  [ ${sStat.includes("Arrested") ? "X" : " "} ] Arrested (Tertangkap)`;
 
     let evs = "";
-    document.querySelectorAll(".ev-desc").forEach((el, idx) => {
-      if (el.value.trim()) evs += `> ${idx + 1}. ${el.value.trim()}\n`;
+    document.querySelectorAll(".ev-input").forEach((el, idx) => {
+      if (el.value.trim()) evs += `> ${el.value.trim()}\n`;
     });
 
     let wits = "";
     document.querySelectorAll(".wit-input").forEach((el, idx) => {
-      if (el.value.trim()) wits += `> ${idx + 1}. ${el.value.trim()}\n`;
+      if (el.value.trim()) wits += `> ${el.value.trim()}\n`;
     });
 
-    const caseStatus = document.getElementById("case_status").value;
+    const status = document.getElementById("case_status").value;
 
     const output = `**LOS SANTOS POLICE DEPARTMENT**
 **INVESTIGATIVE REPORT**
-\`FORM: LSPD 03.01.00\` | **CASE STATUS: ${caseStatus}**
+\`FORM: LSPD 03.01.00\` | **CASE STATUS: ${status}**
 
 **I. INCIDENT INFORMATION**
 > **DR NUMBER:** ${document.getElementById("dr_no").value || "-"}
@@ -414,4 +565,8 @@ ${crimes || "> - -\n"}
 
 **VI. EVIDENCE & WITNESSES**
 > **EVIDENCE LOG:**
-${evs || "
+${evs || "> -\n"}
+> **WITNESS LIST:**
+${wits || "> -\n"}
+__**REPORTING OFFICER**__
+**Name:** ${document.getElementById("off_name").val
