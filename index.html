@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LSPD — Investigative Report</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -128,10 +129,11 @@
     }
     .exhibit-preview {
       max-width: 100%;
-      max-height: 200px;
+      max-height: 220px;
       margin-top: 6px;
       display: none;
       border: 1px solid #cbd5e1;
+      object-fit: contain;
     }
 
     .narrative-box {
@@ -179,6 +181,7 @@
     }
     .btn-bbcode { background: #0f172a; }
     .btn-discord { background: #4f46e5; }
+    .btn-png { background: #d97706; }
     .btn-print { background: #16a34a; }
 
     @media print {
@@ -277,7 +280,7 @@
         <input type="text" class="ex-title" value="Exhibit 1 — Deskripsi Barang Bukti" style="flex:1; border:none; font-weight:bold; font-size:12px; outline:none;">
         <button type="button" onclick="this.closest('.exhibit-box').remove()" style="background:#dc2626; color:#fff; border:none; padding:2px 6px; font-size:10px; cursor:pointer;">✕</button>
       </div>
-      <input type="text" class="ex-url" placeholder="Paste Direct Link Foto (Imgur/Discord)" oninput="loadUrlImg(this)" style="width:100%; border:1px solid #cbd5e1; padding:4px; font-size:11px; margin-bottom:4px;">
+      <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px; cursor:pointer; margin-bottom:4px;">
       <img class="exhibit-preview" src="" alt="Preview">
     </div>
   </div>
@@ -312,7 +315,8 @@
 <div class="controls">
   <button class="act-btn btn-bbcode" onclick="copyBBCode()">📋 Copy BBCode</button>
   <button class="act-btn btn-discord" onclick="copyDiscord()">💬 Copy Discord</button>
-  <button class="act-btn btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+  <button class="act-btn btn-png" onclick="downloadPNG()">📷 Simpan Gambar (PNG)</button>
+  <button class="act-btn btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
 </div>
 
 <script>
@@ -326,17 +330,17 @@
     }
   }
 
-  function loadUrlImg(input) {
-    const url = input.value.trim();
-    const box = input.closest(".exhibit-box");
-    const img = box.querySelector(".exhibit-preview");
-    if (url) {
-      img.src = url;
+  function loadExhibitImg(event, input) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const box = input.closest(".exhibit-box");
+      const img = box.querySelector(".exhibit-preview");
+      img.src = e.target.result;
       img.style.display = "block";
-    } else {
-      img.src = "";
-      img.style.display = "none";
-    }
+    };
+    reader.readAsDataURL(file);
   }
 
   function addSuspect() {
@@ -368,7 +372,7 @@
         <input type="text" class="ex-title" value="Exhibit ${count} — Deskripsi Barang Bukti" style="flex:1; border:none; font-weight:bold; font-size:12px; outline:none;">
         <button type="button" onclick="this.closest('.exhibit-box').remove()" style="background:#dc2626; color:#fff; border:none; padding:2px 6px; font-size:10px; cursor:pointer;">✕</button>
       </div>
-      <input type="text" class="ex-url" placeholder="Paste Direct Link Foto (Imgur/Discord)" oninput="loadUrlImg(this)" style="width:100%; border:1px solid #cbd5e1; padding:4px; font-size:11px; margin-bottom:4px;">
+      <input type="file" accept="image/*" onchange="loadExhibitImg(event, this)" style="font-size:11px; cursor:pointer; margin-bottom:4px;">
       <img class="exhibit-preview" src="" alt="Preview">
     `;
     list.appendChild(box);
@@ -389,8 +393,7 @@
     let exhibits = "";
     document.querySelectorAll(".exhibit-box").forEach(box => {
       const title = box.querySelector(".ex-title").value || "-";
-      const url = box.querySelector(".ex-url").value || "";
-      exhibits += `> - **${title}**${url ? ` (${url})` : ""}\n`;
+      exhibits += `> - **${title}**\n`;
     });
 
     const txt = `**LOS SANTOS POLICE DEPARTMENT — INVESTIGATIVE REPORT**
@@ -429,8 +432,7 @@ ${document.getElementById("narrative").value || "-"}
     let exhibits = "";
     document.querySelectorAll(".exhibit-box").forEach(box => {
       const title = box.querySelector(".ex-title").value || "-";
-      const url = box.querySelector(".ex-url").value || "";
-      exhibits += `[spoiler=${title}]${url ? `[img]${url}[/img]` : "Tidak ada gambar"}[/spoiler]\n`;
+      exhibits += `[spoiler=${title}]Link Foto Bukti[/spoiler]\n`;
     });
 
     const bb = `[divbox=white][center][img]https://i.imgur.com/3fSSqST.png[/img]
@@ -441,7 +443,7 @@ ${document.getElementById("narrative").value || "-"}
 [b]REPORT OF:[/b] ${document.getElementById("report_of").value || "-"}
 [b]INVEST DIV.:[/b] ${document.getElementById("invest_div").value}
 
-[b]VICT_IM[/b]
+[b]VICTIM[/b]
 [b]FULL NAME:[/b] ${document.getElementById("vic_name").value || "-"} | [b]SEX:[/b] ${document.getElementById("vic_sex").value} | [b]DESC:[/b] ${document.getElementById("vic_desc").value || "-"} | [b]DOB:[/b] ${document.getElementById("vic_dob").value || "-"}
 [b]ADDRESS:[/b] ${document.getElementById("vic_address").value || "-"} | [b]PHONE:[/b] ${document.getElementById("vic_phone").value || "-"} | [b]OCCUPATION:[/b] ${document.getElementById("vic_occ").value || "-"}
 
@@ -459,6 +461,19 @@ ${document.getElementById("narrative").value || "-"}
 [b]DETECTIVE SUPERVISOR APPROVING:[/b] ${document.getElementById("det_emp").value || "-"} (${document.getElementById("det_serial").value || "-"}) — ${document.getElementById("det_div").value || "-"}[/divbox]`;
 
     navigator.clipboard.writeText(bb).then(() => alert("Format BBCode Forum berhasil disalin!"));
+  }
+
+  function downloadPNG() {
+    const area = document.getElementById("capture-area");
+    html2canvas(area, { scale: 2, useCORS: true, allowTaint: true }).then(canvas => {
+      const link = document.createElement("a");
+      link.download = "LSPD-Investigative-Report.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }).catch(err => {
+      alert("Gagal mengunduh gambar. Silakan gunakan tombol Cetak / PDF.");
+      console.error(err);
+    });
   }
 </script>
 
